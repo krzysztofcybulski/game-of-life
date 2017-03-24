@@ -12,4 +12,5 @@ bin/%.o: src/%.c
 .PHONY: clean
 clean:
 	rm main
-	rm bin/*.o
+	find . -type f | xargs -n 5 touch
+	rm -rf $(OBJ_FILES)
