@@ -1,7 +1,7 @@
-CPP_FILES := $(wildcard src/*.c)
+CPP_FILES := $(wildcard src/*.c src/game/*.c)
 OBJ_FILES := $(addprefix bin/,$(notdir $(CPP_FILES:.c=.o)))
 LD_FLAGS := 
-CC_FLAGS := -Wall --pedantic
+CC_FLAGS := -Wall
 
 main: $(OBJ_FILES)
 	$(CC) $(LD_FLAGS) -o $@ $^

@@ -10,7 +10,8 @@ typedef struct Map {
     int *cells;
 } *map_t;
 
-map_t load_map(FILE*);
+map_t alloc_map(int, int);
+int load_map(FILE*);
 int get(map_t, int, int);
 int inverse(map_t, int, int);
 int increment(map_t, int, int);
