@@ -1,16 +1,34 @@
-CPP_FILES := $(wildcard src/*.c src/game/*.c)
-OBJ_FILES := $(addprefix bin/,$(notdir $(CPP_FILES:.c=.o)))
-LD_FLAGS := 
-CC_FLAGS := -Wall
+TARGET	 = main
+CC		 = gcc
 
-main: $(OBJ_FILES)
-	$(CC) $(LD_FLAGS) -o $@ $^
-	
-bin/%.o: src/%.c
-	$(CC) $(CC_FLAGS) -c -o $@ $<
-	
+CFLAGS	 = -Wall
+LINKER	 = gcc -o
+LFLAGS	 = -Wall
+
+SRCDIR	 = src
+OBJDIR	 = obj
+BINDIR	 = bin
+
+SOURCES	 := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS	 := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+rm		 = rm -f
+
+
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@$(LINKER) $@ $(LFLAGS) $(OBJECTS)
+	@echo "Linking complete!"
+
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" successfully!"
+
 .PHONY: clean
 clean:
-	rm main
-	find . -type f | xargs -n 5 touch
-	rm -rf $(OBJ_FILES)
+	@$(rm) $(OBJECTS)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
+remove: clean
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"
