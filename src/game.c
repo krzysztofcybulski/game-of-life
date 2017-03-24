@@ -22,9 +22,9 @@ int step(game_t game) {
 	int i;
 
 	for(i = 0; i < game->active_amount; i++) {
-		int ax = game->active[i] % game->map->width + 1;
+		int ax = game->active[i] % game->map->width;
 		int ay = game->active[i] / game->map->width;
-		inverse(game->map, ax, ay);			
+		inverse(game->map, ax, ay);
 	}
 	
 	for(i = 0; i < game->active_amount; i++) {
@@ -51,16 +51,18 @@ int is_active(game_t game, int state) {
 	rules_t rules = game->rules;
 	int i;
 	
-	if(state > 0) 
+	if(state > 0) {
 		for(i = 0; i < sizeof(rules->live) / sizeof(int); i++)
 			if(state == rules->live[i])
 				return 1;
-	else
+		return 0;
+	}
+	else {
 		for(i = 0; i < sizeof(rules->born) / sizeof(int); i++)
 			if(state == rules->born[i])
 				return 0;
-	
-	return 1;
+		return 1;
+	}
 }
 
 int end(game_t game) {

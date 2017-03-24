@@ -4,7 +4,7 @@
 #include <string.h>
 
 int xy_to_a(map_t map, int x, int y) {
-	return map->width * y + (map->width % x + 1);
+	return map->width * y + x;
 }
 
 map_t alloc_map(int height, int width) {

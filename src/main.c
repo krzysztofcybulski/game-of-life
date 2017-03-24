@@ -7,6 +7,19 @@
 #include "game/rules.h"
 #include "game/map.h"
 
+void print_map(game_t game) {
+	int i, j;
+	map_t map = game->map;
+	
+	printf("\n%d\n", game->age);
+	
+	for(i = 0; i < map->height; i++) {
+		for(j = 0; j < map->width; j++)
+			printf("%d", get(map, j, i) > 0 ? get(map, j, i) : 0);
+		printf("\n");
+	}
+}
+
 int main(int argc, char **argv) {
 	
 	//TEST RULES
@@ -30,7 +43,9 @@ int main(int argc, char **argv) {
 	game->active[0] = 12;
 	game->active_amount = 1;
 	
+	print_map(game);
 	step(game);
+	print_map(game);
 	
 	return EXIT_SUCCESS;
 }
