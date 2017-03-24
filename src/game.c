@@ -10,6 +10,7 @@ game_t start(rules_t rules, map_t map) {
 	game->map = map;
 	game->rules = rules;
 	game->age = 0;
+	game->active = malloc(sizeof(int));
 	game->active_amount = 0;
 	
 	return game;
@@ -31,9 +32,7 @@ int step(game_t game) {
 		int ay = game->active[i] / game->map->width;
 		
 		int j;
-		int **neighbors = game->rules->neighbors;
-		
-		printf("%d %d %d %d %d %d\n", i, game->active[i], ax, ay, neighbors[0][0], neighbors[0][1]);
+		int (*neighbors)[2] = game->rules->neighbors;
 		
 		for(j = 0; j < game->rules->neighbors_amount; j++)
 			if(is_active(game, increment(game->map, ax + neighbors[j][0], ay + neighbors[j][1])))

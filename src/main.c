@@ -17,17 +17,18 @@ int main(int argc, char **argv) {
 	int born[1] = {-4};
 	r->born = (int*)born;
 	int neighbors[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
-	r->neighbors = malloc(sizeof(int) * 16); //TODO
+	int (*ne)[2] = neighbors;
 	r->neighbors_amount = 8;
-	printf("%d\n", r->neighbors[i][1]);
+	r->neighbors = malloc(sizeof(ne));
+	r->neighbors = ne;
 	
 	map_t map = alloc_map(5, 5);
 	
 	game_t game = start(r, map);
 	game->map->cells[12] = 1;
 	game->active = malloc(sizeof(int));
-	game->active_amount = 1;
 	game->active[0] = 12;
+	game->active_amount = 1;
 	
 	step(game);
 	

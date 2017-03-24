@@ -30,8 +30,6 @@ int get(map_t map, int x, int y) {
 int inverse(map_t map, int x, int y) {
 	return map->cells[xy_to_a(map, x, y)] *= -1;
 }
-int increment(map_t map, int x, int y) {
-	printf("Inc: %d %d\n", x, y);
-	
+int increment(map_t map, int x, int y) {	
 	return map->cells[xy_to_a(map, x, y)] > 0 ? map->cells[xy_to_a(map, x, y)]++ : map->cells[xy_to_a(map, x, y)]--; //TODO
 }

@@ -5,7 +5,7 @@ typedef struct Rules {
 	char *name;
     int *live;
 	int *born;
-	int **neighbors;
+	int (*neighbors)[2];
 	int neighbors_amount;
 } *rules_t;
 
