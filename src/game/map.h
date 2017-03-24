@@ -1,0 +1,18 @@
+#ifndef GOL_C_MAP_H
+#define GOL_C_MAP_H
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Map {
+    int width;
+    int height;
+    int *cells;
+} *map_t;
+
+map_t load_map(FILE*);
+int get(map_t, int, int);
+int inverse(map_t, int, int);
+int increment(map_t, int, int);
+
+#endif
