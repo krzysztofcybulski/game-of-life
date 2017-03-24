@@ -8,6 +8,8 @@ typedef struct Game {
 	map_t map;
 	rules_t rules;
     int age;
+	int *active;
+	int active_amount;
 } *game_t;
 
 game_t start(rules_t, map_t);
