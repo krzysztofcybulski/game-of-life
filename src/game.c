@@ -87,7 +87,3 @@ int place(game_t game, int *actives, int n) {
 	
 	return 0;
 }
-
-int end(game_t game) {
-	return 0;
-}

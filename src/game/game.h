@@ -15,6 +15,5 @@ typedef struct Game {
 game_t start(rules_t, map_t);
 int step(game_t);
 int place(game_t, int *, int);
-int end(game_t);
 
 #endif

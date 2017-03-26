@@ -27,6 +27,7 @@ int invert(map_t map, int position) {
 		map->cells[position] -= SPLITTER;
 	return map->cells[position];
 }
+
 int increment(map_t map, int position, int change) {	
 	if(map->cells[change] >= SPLITTER)
 		return ++map->cells[position];

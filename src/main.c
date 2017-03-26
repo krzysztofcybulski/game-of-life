@@ -49,13 +49,15 @@ int main(int argc, char **argv) {
 	r->neighbours_amount = 8;
 	r->neighbours = ne;
 	
-	map_t map = alloc_map(8, 8);
+	map_t map = alloc_map(13, 13);
 	game_t game = start(r, map);
 	
-	int actives[3] = {12, 20, 28};
-	place(game, (int*)actives, 3);
+	int actives[] = {71, 83, 84, 85};
+	place(game, (int*)actives, 4);
 	
 	move(game, 10);
+	
+	free(game);
 	
 	return EXIT_SUCCESS;
 }
