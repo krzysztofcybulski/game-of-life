@@ -72,7 +72,19 @@ char **golsh_split_line(char *line) {
 }
 void help() {
     printf("Info and instuction about available function\n");
-    printf("%-20s %s\n","SET_RULES", "PRINT RULES");
+    printf("%-20s %s\n","SET_RULE", "set_rule <nazwa>");
+    printf("%-20s %s\n","EXIT", "konczy program");
+    printf("%-20s %s\n","SHOW_RULES", "pokazuje dostepne zasady");
+    printf("%-20s %s\n","SET_SIZE", "set_size <rozmiar>");
+    printf("%-20s %s\n","PLACE", "place <x> <y> <nazwa>");
+    printf("%-20s %s\n","SET", "set <x> <y> [stan]");
+    printf("%-20s %s\n","GO", "go <n>");
+    printf("%-20s %s\n","NEXT OR N", "przychodzi jedna generacje dalej");
+    printf("%-20s %s\n","BACK OR B", "cofa sie o jedna generacje");
+    printf("%-20s %s\n","PLAY", "play <n> [delay] [name]");
+    printf("%-20s %s\n","SHOW", "wyświetla okno z wizualizacją planszy");
+    printf("%-20s %s\n","SAVE", "zapisuje plik .png o nazwie [name]");
+
 }
 
 int run(char **command) {
@@ -84,10 +96,31 @@ int run(char **command) {
 
     if (strcmp(command[0], "help")==0 && command[1] == NULL) {
         help();
-    //} else if(command[0], "set_rules") {
-  //      set_rules();
     } else if (strcmp(command[0], "exit")==0) {
     	exit(EXIT_SUCCESS);
+/*    } else if (strcmp(command[0], "show_rules") == 0) {
+    	show_rules();
+    } else if (strcmp(command[0], "set_rules") == 0) {
+    	set_rules();
+    } else if (strcmp(command[0], "set_size") == 0) {
+    	set_size();
+    } else if (strcmp(command[0], "place") == 0) {
+    	place();
+    } else if (strcmp(command[0], "set") == 0) {
+    	set();
+    } else if (strcmp(command[0], "go") == 0) {
+    	go();
+    } else if (strcmp(command[0], "next") == 0 || strcmp(command[0], "n")) {
+    	next();
+    } else if ((strcmp(command[0], "back") == 0) || (strcmp(command[0], "back")) == 0) {
+    	back();
+    } else if (strcmp(command[0], "play") == 0) {
+    	play();
+    } else if (strcmp(command[0], "show") == 0) {
+    	show();
+    } else if (strcmp(command[0], "save") == 0) {
+    	save();
+*/
     } else
         return 1;
 
