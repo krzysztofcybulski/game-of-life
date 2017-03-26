@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-
 #define BUFFSIZE 1024
 #define DELIM " \t\n\r\a"
+
+#include "game/golsh.h"
 
 char *golsh_read_line() {
     int buffsize = BUFFSIZE;
@@ -71,7 +71,7 @@ char **golsh_split_line(char *line) {
     return tokens;
 }
 void help() {
-    printf("INFO about available function and instuction how to use it\n");
+    printf("Info and instuction about available function\n");
     printf("%-20s %s\n","SET_RULES", "PRINT RULES");
 }
 
@@ -80,10 +80,9 @@ int run(char **command) {
 	char *c;
 	for(c = command[0]; *c != '\0'; c++) {
 		*c = tolower(*c);
-		printf("%c\n", *c);
 	}
 
-    if (strcmp(command[0], "help")==0) {
+    if (strcmp(command[0], "help")==0 && command[1] == NULL) {
         help();
     //} else if(command[0], "set_rules") {
   //      set_rules();
@@ -103,7 +102,6 @@ void golsh_loop() {
         printf("> ");
         line = golsh_read_line();
         args = golsh_split_line(line);
-        printf("%s\n", args[0]);
         status = run(args);
 
     } while (status);
@@ -111,7 +109,7 @@ void golsh_loop() {
 
 
 
-
+/*
 int main (int argc, char **argv) {
 
     golsh_loop();
@@ -119,3 +117,4 @@ int main (int argc, char **argv) {
 
     return 0;
 }
+*/

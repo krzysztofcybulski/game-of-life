@@ -6,6 +6,7 @@
 #include "game/game.h"
 #include "game/rules.h"
 #include "game/map.h"
+#include "game/golsh.h"
 
 void print_map(game_t game) {
 	int i, j;
@@ -46,6 +47,8 @@ int main(int argc, char **argv) {
 	print_map(game);
 	step(game);
 	print_map(game);
+	
+	golsh_loop();
 	
 	return EXIT_SUCCESS;
 }
