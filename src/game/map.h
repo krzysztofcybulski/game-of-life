@@ -12,8 +12,8 @@ typedef struct Map {
 
 map_t alloc_map(int, int);
 int load_map(FILE*);
-int get(map_t, int, int);
-int inverse(map_t, int, int);
-int increment(map_t, int, int);
+
+int inverse(map_t, int);
+int increment(map_t, int);
 
 #endif
