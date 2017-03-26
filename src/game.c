@@ -16,15 +16,12 @@ game_t start(rules_t rules, map_t map) {
 	return game;
 }
 
-int step(game_t game) {	
-	return NULL;
-}
-
 int is_active(game_t game, int state) {
 	rules_t rules = game->rules;
 	int i;
 	
-	if(state > 0) {
+	
+	if(state >= SPLITTER) {
 		for(i = 0; i < rules->live_n; i++)
 			if(state == rules->live[i])
 				return 1;
@@ -36,6 +33,59 @@ int is_active(game_t game, int state) {
 				return 0;
 		return 1;
 	}
+}
+
+int invert_actives(map_t map, int* actives, int n) {
+	int i;
+	for(i = 0; i < n; i++)
+		invert(map, actives[i]);
+	return 0;
+}
+
+int step(game_t game) {
+
+	int i, j;
+	int *new_actives = (int*) malloc(game->actives_amount * 8 * sizeof(int));
+	int new_actives_amount = 0;
+	invert_actives(game->map, game->actives, game->actives_amount);
+	
+	for(i = 0; i < game->actives_amount; i++)
+		for(j = 0; j < game->rules->neighbours_amount; j++)
+			increment(game->map, game->actives[i] + game->rules->neighbours[j][1] + (game->map->width * game->rules->neighbours[j][0]), game->actives[i]);
+	
+	for(i = 0; i < game->actives_amount; i++)
+		for(j = 0; j < game->rules->neighbours_amount; j++) {
+			int position = game->actives[i] + game->rules->neighbours[j][1] + (game->map->width * game->rules->neighbours[j][0]);
+			if(is_active(game, game->map->cells[position]) == 0) {
+				int k = 0;
+				while(new_actives[k] != position && k < new_actives_amount){k++;}
+				if(k == new_actives_amount)
+					new_actives[new_actives_amount++] = position;
+			}
+		}
+	
+	free(game->actives);
+	new_actives = realloc(new_actives, new_actives_amount * sizeof(int));
+	game->actives = new_actives;
+	game->actives_amount = new_actives_amount;
+	game->age++;
+	
+	return 0;
+}
+
+int place(game_t game, int *actives, int n) {
+	int i;
+	int current_n = game->actives_amount;
+	int size = current_n + n;
+	
+	game->actives = (int*) realloc(game->actives, size * sizeof(int));
+	
+	for(i = current_n; i < size; i++)
+		game->actives[i] = actives[i - current_n];
+	
+	game->actives_amount = size;
+	
+	return 0;
 }
 
 int end(game_t game) {

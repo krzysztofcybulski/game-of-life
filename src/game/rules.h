@@ -7,8 +7,8 @@ typedef struct Rules {
 	int live_n;
 	int *born;
 	int born_n;
-	int (*neighbors)[2];
-	int neighbors_amount;
+	int (*neighbours)[2];
+	int neighbours_amount;
 } *rules_t;
 
 #endif
