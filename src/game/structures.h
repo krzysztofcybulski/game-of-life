@@ -1,7 +1,8 @@
 #ifndef GOL_C_STRUCTURES_H
 #define GOL_C_STRUCTURES_H
 
-#include <../game/map.h>
+#include <stdio.h>
+#include <map.h>
 
 typedef struct Structures {
 	map_t *structs;
