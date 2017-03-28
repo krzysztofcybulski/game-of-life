@@ -49,20 +49,15 @@ int step(game_t game) {
 	int new_actives_amount = 0;
 	invert_actives(game->map, game->actives, game->actives_amount);
 	
-	printf("%d %d\n", game->actives_amount, game->rules->neighbours_amount);
-	
 	for(i = 0; i < game->actives_amount; i++)
-		for(j = 0; j < game->rules->neighbours_amount; j++) {
-			printf("%d\n", game->actives[i]);
+		for(j = 0; j < game->rules->neighbours_amount; j++)
 			increment(game->map, game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]), game->actives[i]);
-		}
 	
 	for(i = 0; i < game->actives_amount; i++)
 		for(j = 0; j < game->rules->neighbours_amount; j++) {
 			int position = game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]);
 			int x = position % game->map->width;
 			int y = position / game->map->width;
-			printf("%d %d %d %d\n", x, y, x >= 0 && x < game->map->width && y >= 0 && y < game->map->height, is_active(game, game->map->cells[position]));
 			if(x >= 0 && x < game->map->width && y >= 0 && y < game->map->height && is_active(game, game->map->cells[position])) {
 				int k = 0;
 				while(new_actives[k] != position && k < new_actives_amount){k++;}

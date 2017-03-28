@@ -20,11 +20,7 @@ void print_map(map_t map) {
 }
 
 void print_actives(game_t game) {
-	int i;
-	printf("Active cells [%d]: {", game->actives_amount);
-	for(i = 0; i < game->actives_amount; i++)
-		printf("%d, ", game->actives[i]);
-	printf("}\n");
+	printf("n = %d\n", game->actives_amount);
 }
 
 void move(game_t game, int n) {
