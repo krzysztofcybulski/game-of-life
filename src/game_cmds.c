@@ -4,12 +4,16 @@
 #include "game/game.h"
 #include "game/map.h"
 #include "utils/delay.h"
+#include "utils/colors.h"
 
 void print_map(map_t map) {
 	int i, j;
 	for(i = 0; i < map->height; i++) {
 		for(j = 0; j < map->width; j++)
-			printf("%d ", map->cells[i * map->width + j] > SPLITTER ? map->cells[i * map->width + j] % 10 : 0);
+			if(map->cells[i * map->width + j] > SPLITTER)
+				printf("%s%d%s ", KCYN, map->cells[i * map->width + j] % 10, KNRM);
+			else
+				printf(" ");
 		printf("\n");
 	}
 }
