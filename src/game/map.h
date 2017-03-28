@@ -7,6 +7,7 @@
 #define SPLITTER 10
 
 typedef struct Map {
+	char *name;
     int width;
     int height;
     int *cells;
