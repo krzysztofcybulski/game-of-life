@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
 	}
 	
 	/*TEST RULES*/
-	
 	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
 	int live[2] = {12, 13};
@@ -61,11 +60,10 @@ int main(int argc, char **argv) {
 	map_t map = alloc_map(13, 13);
 	game_t game = start(r, map);
 	
-	int actives[] = {71, 83, 84, 85};
-	place(game, (int*)actives, 4);
+	int actives[] = {1, 15, 26, 27, 28};
+	place(game, (int*)actives, 5);
 	
-	move(game, 10);
-	
+	move(game, 50);
 	free(game);
 	
 	return EXIT_SUCCESS;

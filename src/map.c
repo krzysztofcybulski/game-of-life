@@ -28,7 +28,13 @@ int invert(map_t map, int position) {
 	return map->cells[position];
 }
 
-int increment(map_t map, int position, int change) {	
+int increment(map_t map, int position, int change) {
+	int x = position % map->width;
+	int y = position / map->width;
+	
+	if(x < 0 || x >= map->width || y < 0 || y >= map->height)
+		return 0;
+	
 	if(map->cells[change] >= SPLITTER)
 		return ++map->cells[position];
 	else
