@@ -12,6 +12,6 @@ typedef struct Structures {
 structs_t alloc_structs();
 int load_all_structs(structs_t structs);
 map_t load_structure(structs_t structs, char *name);
-int save_structure(structs_t structs, char *name);
+int save_structure(structs_t structs, char *name, map_t struct);
 
 #endif
