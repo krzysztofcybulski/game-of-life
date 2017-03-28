@@ -33,7 +33,8 @@ int load_all_structs(structs_t structs) {
 }
 
 map_t load_structure(char *name) {
-	char path[50] = strcat("resources/structures/", name);
+	char path[50]="resources/structures/";
+	strcat(path, name);
 	char buffor[50];
 	int i=0, w, h;
 	FILE *in = fopen(path, "r");
@@ -53,18 +54,18 @@ map_t load_structure(char *name) {
 	return load;
 
 }
-int save_structure(char *name, map_t struct){
-	int i;
-	char path[50] = strcat("resources/structures/", name);
+int save_structure(char *name, map_t struc) {
+	char path[50]="resources/structures/";
+	strcat(path, name);
 	FILE *out = fopen(path, "w");
 	if(out == NULL ) {
 		printf("blad otwarcia pliku save_structure!");
 		return -1;
 	}
-	fprintf(out, "Map %d %d\n", struct->width, struct->height);
-
-	for(i=0; i< struct->width * struct->height; i++)
-		fprintf(out, "%d ", struct->cells[i]);
+	fprintf(out, "Map %d %d\n", struc->width, struc->height);
+	int i;
+	for(i=0; i< (struc->width * struc->height); i++)
+		fprintf(out, "%d ", struc->cells[i]);
 
 	fclose(out);
 
