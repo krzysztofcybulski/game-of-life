@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+#include "game/map.h"
+#include "game/rules.h"
+#include "game/game.h"
+
 #define BUFFSIZE 1024
 #define DELIM " \t\n\r\a"
 
@@ -86,6 +91,41 @@ void help() {
     printf("%-20s %s\n","SAVE", "zapisuje plik .png o nazwie [name]");
 
 }
+void show_rules() {
+    printf("1. Sasiedztwo Moore'a  \n");
+
+}
+int set_rules(char **command) {
+	;
+}
+int set_size(char **command) {
+	;
+}
+int set(char **command) {
+	;
+}
+int go(char **command) {
+	;
+}
+int next() {
+	//int increment(map_t, int, int);
+		;
+}
+int back() {
+	//int inverse(map_t, int, int);	
+	;
+}
+int play(char **command) {
+	;
+}
+int show() {
+	;
+}
+int show(char **command) {
+	;
+}
+	
+
 
 int run(char **command) {
 	//to lower
@@ -98,29 +138,29 @@ int run(char **command) {
         help();
     } else if (strcmp(command[0], "exit")==0) {
     	exit(EXIT_SUCCESS);
-/*    } else if (strcmp(command[0], "show_rules") == 0) {
+    } else if (strcmp(command[0], "show_rules") == 0) {
     	show_rules();
     } else if (strcmp(command[0], "set_rules") == 0) {
-    	set_rules();
+    	set_rules(command);
     } else if (strcmp(command[0], "set_size") == 0) {
-    	set_size();
+    	set_size(command);
     } else if (strcmp(command[0], "place") == 0) {
     	place();
     } else if (strcmp(command[0], "set") == 0) {
-    	set();
+    	set(command);
     } else if (strcmp(command[0], "go") == 0) {
-    	go();
+    	go(command);
     } else if (strcmp(command[0], "next") == 0 || strcmp(command[0], "n")) {
     	next();
-    } else if ((strcmp(command[0], "back") == 0) || (strcmp(command[0], "back")) == 0) {
+    } else if ((strcmp(command[0], "back") == 0) || (strcmp(command[0], "b")) == 0) {
     	back();
     } else if (strcmp(command[0], "play") == 0) {
-    	play();
+    	play(command);
     } else if (strcmp(command[0], "show") == 0) {
     	show();
     } else if (strcmp(command[0], "save") == 0) {
-    	save();
-*/
+    	save(command);
+
     } else
         return 1;
 
