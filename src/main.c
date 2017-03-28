@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utils/colors.h"
 
@@ -35,19 +36,16 @@ void move(game_t game, int n) {
 		move(game, --n);
 }
 
-char* test_cmd(int a, char* b) {
-	return b;
-}
-
 int main(int argc, char **argv) {
 	
-	utests_t utests = alloc_utests();
-	test(utests, "test", test_cmd(3, "a"), "b");
-	print_results(utests);
+	if(argc > 1 && strcmp(argv[1], "test") == 0) {
+		utests_t utests = alloc_utests();
+		return print_results(utests);
+	}
 	
 	/*TEST RULES*/
 	
-	/*rules_t r = (rules_t) malloc(sizeof(struct Rules));
+	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
 	int live[2] = {12, 13};
 	r->live = (int*)live;
@@ -68,7 +66,7 @@ int main(int argc, char **argv) {
 	
 	move(game, 10);
 	
-	free(game);*/
+	free(game);
 	
 	return EXIT_SUCCESS;
 }
