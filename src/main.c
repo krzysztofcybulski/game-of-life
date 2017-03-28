@@ -10,31 +10,7 @@
 
 #include "test/test.h"
 
-void print_map(map_t map) {
-	int i, j;
-	for(i = 0; i < map->height; i++) {
-		for(j = 0; j < map->width; j++)
-			printf("%d ", map->cells[i * map->width + j] > SPLITTER ? map->cells[i * map->width + j] % 10 : 0);
-		printf("\n");
-	}
-}
-
-void print_actives(game_t game) {
-	int i;
-	printf("Active cells [%d]: {", game->actives_amount);
-	for(i = 0; i < game->actives_amount; i++)
-		printf("%d, ", game->actives[i]);
-	printf("}\n");
-}
-
-void move(game_t game, int n) {
-	step(game);
-	print_actives(game);
-	print_map(game->map);
-	
-	if(n > 0)
-		move(game, --n);
-}
+#include "game/game_cmds.h"
 
 int main(int argc, char **argv) {
 	
@@ -44,7 +20,6 @@ int main(int argc, char **argv) {
 	}
 	
 	/*TEST RULES*/
-	
 	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
 	int live[2] = {12, 13};
@@ -58,14 +33,13 @@ int main(int argc, char **argv) {
 	r->neighbours_amount = 8;
 	r->neighbours = ne;
 	
-	map_t map = alloc_map(13, 13);
+	map_t map = alloc_map(20, 20);
 	game_t game = start(r, map);
 	
-	int actives[] = {71, 83, 84, 85};
-	place(game, (int*)actives, 4);
+	int actives[] = {1, 22, 40, 41, 42};
+	place(game, (int*)actives, 5);
 	
-	move(game, 10);
-	
+	move(game, 80, 100000);
 	free(game);
 	
 	return EXIT_SUCCESS;

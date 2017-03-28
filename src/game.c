@@ -24,14 +24,14 @@ int is_active(game_t game, int state) {
 	if(state >= SPLITTER) {
 		for(i = 0; i < rules->live_n; i++)
 			if(state == rules->live[i])
-				return 1;
-		return 0;
+				return 0;
+		return 1;
 	}
 	else {
 		for(i = 0; i < rules->born_n; i++)
 			if(state == rules->born[i])
-				return 0;
-		return 1;
+				return 1;
+		return 0;
 	}
 }
 
@@ -51,12 +51,14 @@ int step(game_t game) {
 	
 	for(i = 0; i < game->actives_amount; i++)
 		for(j = 0; j < game->rules->neighbours_amount; j++)
-			increment(game->map, game->actives[i] + game->rules->neighbours[j][1] + (game->map->width * game->rules->neighbours[j][0]), game->actives[i]);
+			increment(game->map, game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]), game->actives[i]);
 	
 	for(i = 0; i < game->actives_amount; i++)
 		for(j = 0; j < game->rules->neighbours_amount; j++) {
-			int position = game->actives[i] + game->rules->neighbours[j][1] + (game->map->width * game->rules->neighbours[j][0]);
-			if(is_active(game, game->map->cells[position]) == 0) {
+			int position = game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]);
+			int x = position % game->map->width;
+			int y = position / game->map->width;
+			if(x >= 0 && x < game->map->width && y >= 0 && y < game->map->height && is_active(game, game->map->cells[position])) {
 				int k = 0;
 				while(new_actives[k] != position && k < new_actives_amount){k++;}
 				if(k == new_actives_amount)
