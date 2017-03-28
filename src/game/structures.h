@@ -2,7 +2,7 @@
 #define GOL_C_STRUCTURES_H
 
 #include <stdio.h>
-#include <map.h>
+#include "map.h"
 
 typedef struct Structures {
 	map_t *structs;
@@ -10,8 +10,8 @@ typedef struct Structures {
 } *structs_t;
 
 structs_t alloc_structs();
-int load_all_structs(structs_t structs);
-map_t load_structure(FILE *file);
-int save_structure(structs_t structs, char *name, map_t struct);
+int load_all_structs(structs_t );
+map_t load_structure(char *);
+int save_structure(char *, map_t);
 
 #endif

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <dirent.h>
 #include "game/map.h"
 #include "game/structures.h"
@@ -10,7 +11,7 @@ structs_t alloc_structs() {
 	structures->structs = NULL;
 	structures->structs_amount = 0;
 
-	return structs;
+	return structures;
 }
 int load_all_structs(structs_t structs) {
 	struct dirent *file;
@@ -19,7 +20,7 @@ int load_all_structs(structs_t structs) {
 	if(path = opendir(("resources/structures/"))) {
 		while(file = readdir(path)) {
 			structs = alloc_structs();
-			structs->structs[structs->structs_amount] = load_structure(plik->d_name);
+			structs->structs[structs->structs_amount] = load_structure(file->d_name);
 			structs->structs_amount++;
 		}
 
@@ -44,7 +45,7 @@ map_t load_structure(char *name) {
 
 	
 	map_t load = alloc_map(h, w);
-	while(fscanf(in, %d, &load->cells[i] )==1) 
+	while(fscanf(in, "%d", &load->cells[i] )==1) 
 		i++;
 
 	fclose(in);
@@ -53,15 +54,16 @@ map_t load_structure(char *name) {
 
 }
 int save_structure(char *name, map_t struct){
+	int i;
 	char path[50] = strcat("resources/structures/", name);
 	FILE *out = fopen(path, "w");
 	if(out == NULL ) {
 		printf("blad otwarcia pliku save_structure!");
 		return -1;
 	}
-
 	fprintf(out, "Map %d %d\n", struct->width, struct->height);
-	for(i=0; i<struct->width * struct->height); i++)
+
+	for(i=0; i< struct->width * struct->height; i++)
 		fprintf(out, "%d ", struct->cells[i]);
 
 	fclose(out);
