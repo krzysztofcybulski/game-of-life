@@ -12,40 +12,6 @@
 
 #include "game/golsh.h"
 
-char *golsh_read_line() {
-    int buffsize = BUFFSIZE;
-    int position = 0;
-    char *buffer = malloc(sizeof *(buffer) * BUFFSIZE);
-    int c;
-
-    if (buffer == NULL) {
-        printf("Pamiec nie zosta³a zaalokowana!");
-        exit(EXIT_FAILURE);
-    }
-
-    while (1) {
-        c = getchar();
-
-        if(c == EOF || c == '\n') {
-            buffer[position] = '\0';
-            return buffer;
-        } else {
-            buffer[position] = c;
-        }
-        position++;
-
-        if(position >= buffsize) {
-            buffsize *= 2;
-            char *new_buffer = realloc(buffer, buffsize);
-            if(new_buffer == NULL) {
-                printf("Problemy z alolakacja pamieci!");
-                exit(EXIT_FAILURE);
-            }
-            buffer = new_buffer;
-        }
-    }
-}
-
 char **golsh_split_line(char *line) {
     int buffsize = BUFFSIZE;
     char **tokens = malloc(sizeof(char) * buffsize);
@@ -170,10 +136,11 @@ void golsh_loop() {
     char *line;
     char **args;
     int status;
+    char buffer[BUFFSIZE];
 
     do {
         printf("> ");
-        line = golsh_read_line();
+        line = fgets(buffer, BUFFSIZE, stdin);
         args = golsh_split_line(line);
         status = ruun(args);
 
