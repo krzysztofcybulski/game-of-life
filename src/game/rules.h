@@ -20,6 +20,6 @@ typedef struct AllRules {
 
 all_rules_t alloc_all_rules();
 int load_all_rules(all_rules_t all_rules);
-rules_t load_rules(FILE *file);
+rules_t load_rules(char  *name);
 
 #endif

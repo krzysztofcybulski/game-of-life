@@ -8,7 +8,8 @@
 #include "game/game.h"
 #include "game/rules.h"
 #include "game/map.h"
-
+#include "game/png_generator.h"
+#include "game/golsh.h"
 #include "test/test.h"
 
 #include "game/game_cmds.h"
@@ -80,6 +81,10 @@ int main(int argc, char **argv) {
 	place(game, (int*)actives, 5);
 	
 	move(game, 80, 100000);
+
+	process_file(map);
+  	write_png_file("out.png");
+
 	free(game);
 	
 	return EXIT_SUCCESS;

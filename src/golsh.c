@@ -118,16 +118,16 @@ int back() {
 int play(char **command) {
 	;
 }
+
 int show() {
 	;
 }
-int show(char **command) {
+int save(char **command) {
 	;
-}
-	
+}	
 
 
-int run(char **command) {
+int ruun(char **command) {
 	//to lower
 	char *c;
 	for(c = command[0]; *c != '\0'; c++) {
@@ -144,8 +144,8 @@ int run(char **command) {
     	set_rules(command);
     } else if (strcmp(command[0], "set_size") == 0) {
     	set_size(command);
-    } else if (strcmp(command[0], "place") == 0) {
-    	place();
+//    } else if (strcmp(command[0], "place") == 0) {
+//    	place();
     } else if (strcmp(command[0], "set") == 0) {
     	set(command);
     } else if (strcmp(command[0], "go") == 0) {
@@ -175,7 +175,7 @@ void golsh_loop() {
         printf("> ");
         line = golsh_read_line();
         args = golsh_split_line(line);
-        status = run(args);
+        status = ruun(args);
 
     } while (status);
 }
