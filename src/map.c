@@ -3,12 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int xy_to_a(map_t map, int x, int y) {
-	return map->width * y + x;
-}
-
 map_t alloc_map(int height, int width) {
-	map_t map = (map_t) malloc(sizeof(map_t));
+	map_t map = (map_t) malloc(sizeof(struct Map));
 	
 	map->height = height;
 	map->width = width;
@@ -24,12 +20,23 @@ int load_map(FILE* file) {
 	return 0;
 }
 
-int get(map_t map, int x, int y) {
-	return map->cells[xy_to_a(map, x, y)];
+int invert(map_t map, int position) {
+	if(map->cells[position] < SPLITTER)
+		map->cells[position] += SPLITTER;
+	else
+		map->cells[position] -= SPLITTER;
+	return map->cells[position];
 }
-int inverse(map_t map, int x, int y) {
-	return map->cells[xy_to_a(map, x, y)] *= -1;
-}
-int increment(map_t map, int x, int y) {	
-	return map->cells[xy_to_a(map, x, y)] > 0 ? map->cells[xy_to_a(map, x, y)]++ : map->cells[xy_to_a(map, x, y)]--; //TODO
+
+int increment(map_t map, int position, int change) {
+	int x = position % map->width;
+	int y = position / map->width;
+	
+	if(x < 0 || x >= map->width || y < 0 || y >= map->height)
+		return 0;
+	
+	if(map->cells[change] >= SPLITTER)
+		return ++map->cells[position];
+	else
+		return --map->cells[position];
 }

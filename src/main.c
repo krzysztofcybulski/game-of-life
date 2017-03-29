@@ -1,26 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <string.h>
 
 #include "utils/colors.h"
 
 #include "game/game.h"
 #include "game/rules.h"
 #include "game/map.h"
-#include "game/golsh.h"
 
-void print_map(game_t game) {
-	int i, j;
-	map_t map = game->map;
-	
-	printf("\n%d\n", game->age);
-	
-	for(i = 0; i < map->height; i++) {
-		for(j = 0; j < map->width; j++)
-			printf("%d", get(map, j, i) > 0 ? get(map, j, i) : 0);
-		printf("\n");
-	}
-}
+#include "test/test.h"
+
+#include "game/game_cmds.h"
+
 void flags_handling(int argc, char ** args) {
 	int c;
 
@@ -53,46 +45,42 @@ void flags_handling(int argc, char ** args) {
 				break;
 			default:
 				abort();
-
-		}
-			
-
-
-
+    }	
 	}
-
-
 }
+
 
 int main(int argc, char **argv) {
 	
-	flags_handling(argc, argv);
-	//TEST RULES
-	rules_t r = (rules_t) malloc(sizeof(rules_t));
+	if(argc > 1 && strcmp(argv[1], "test") == 0) {
+		utests_t utests = alloc_utests();
+		return print_results(utests);
+	}
+ 	flags_handling(argc, argv);
+
+	
+	/*TEST RULES*/
+	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
-	int live[2] = {4, 5};
+	int live[2] = {12, 13};
 	r->live = (int*)live;
-	int born[1] = {-4};
+	r->live_n = 2;
+	int born[1] = {3};
 	r->born = (int*)born;
-	int neighbors[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
-	int (*ne)[2] = neighbors;
-	r->neighbors_amount = 8;
-	r->neighbors = malloc(sizeof(ne));
-	r->neighbors = ne;
+	r->born_n = 1;
+	int neighbours[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
+	int (*ne)[2] = neighbours;
+	r->neighbours_amount = 8;
+	r->neighbours = ne;
 	
-	map_t map = alloc_map(5, 5);
-	
+	map_t map = alloc_map(20, 20);
 	game_t game = start(r, map);
-	game->map->cells[12] = 1;
-	game->active = malloc(sizeof(int));
-	game->active[0] = 12;
-	game->active_amount = 1;
 	
-	print_map(game);
-	step(game);
-	print_map(game);
+	int actives[] = {1, 22, 40, 41, 42};
+	place(game, (int*)actives, 5);
 	
-	golsh_loop();
+	move(game, 80, 100000);
+	free(game);
 	
 	return EXIT_SUCCESS;
 }

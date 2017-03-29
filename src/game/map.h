@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define SPLITTER 10
+
 typedef struct Map {
+	char *name;
     int width;
     int height;
     int *cells;
@@ -12,8 +15,8 @@ typedef struct Map {
 
 map_t alloc_map(int, int);
 int load_map(FILE*);
-int get(map_t, int, int);
-int inverse(map_t, int, int);
+
+int invert(map_t, int);
 int increment(map_t, int, int);
 
 #endif
