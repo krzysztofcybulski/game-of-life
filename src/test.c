@@ -9,7 +9,7 @@ utests_t alloc_utests() {
 	utests->tests = (test_t*) malloc(sizeof(test_t));
 	utests->size = 1;
 	utests->tests_amount = 0;
-	utests->result = 0;
+	utests->result = 1;
 	return utests;
 }
 
@@ -39,7 +39,7 @@ int print_results(utests_t utests) {
 			printf("%s%s works great%s\n", KGRN, test_c->name, KNRM);
 		else {
 			printf("%s%s should be %d, but is %d%s\n", KRED, test_c->name, test_c->expected, test_c->returned, KNRM);
-			utests->result = 1;
+			utests->result = 0;
 		}
 	}
 	
