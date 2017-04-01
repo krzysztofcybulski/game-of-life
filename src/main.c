@@ -8,11 +8,11 @@
 #include "game/game.h"
 #include "game/rules.h"
 #include "game/map.h"
-#include "game/png_generator.h"
-#include "game/golsh.h"
 #include "test/test.h"
-
 #include "game/game_cmds.h"
+#include "parser/cmd.h"
+
+rules_t load_test_rules();
 
 void flags_handling(int argc, char ** args) {
 	int c;
@@ -60,7 +60,6 @@ int main(int argc, char **argv) {
  	flags_handling(argc, argv);
 
 	
-	/*TEST RULES*/
 	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
 	int live[2] = {12, 13};
@@ -79,13 +78,9 @@ int main(int argc, char **argv) {
 	
 	int actives[] = {1, 22, 40, 41, 42};
 	place(game, (int*)actives, 5);
-	
-	move(game, 80, 100000);
-
-	process_file(map);
-  	write_png_file("out.png");
-
+	move(game, 1, 0, NULL);
+	while(wait_cmd(game)) {}
+  
 	free(game);
-	
 	return EXIT_SUCCESS;
 }
