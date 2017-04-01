@@ -1,9 +1,9 @@
 TARGET	 = main
 CC		 = gcc
 
-CFLAGS	 = -Wall
+CFLAGS	 = -Wall 
 LINKER	 = gcc -o
-LFLAGS	 = -Wall
+LFLAGS	 = -Wall -lpng
 
 SRCDIR	 = src
 OBJDIR	 = obj

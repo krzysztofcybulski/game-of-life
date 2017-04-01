@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <getopt.h>
 #include <string.h>
 
 #include "utils/colors.h"
@@ -13,12 +14,51 @@
 
 rules_t load_test_rules();
 
+void flags_handling(int argc, char ** args) {
+	int c;
+
+	while(1) {
+		static struct option long_option[] = {
+			{"rules", required_argument,0, 'r'},
+			{"size ", required_argument, 0, 's'},
+			{"config", required_argument, 0, 'c'}, 
+			{0, 0, 0, 0}
+
+		};
+		int index = 0;
+		c = getopt_long(argc, args, "c:r:s:", long_option, &index);
+
+		if(c == -1) {
+			break;
+		}
+
+		switch(c) {
+			case 'c':
+				printf("option -c with value %s\n",optarg );
+				break;
+			case 'r':
+				printf("option -r with value %s\n",optarg );
+				break;
+			case 's':
+				printf("option -s with value %s\n",optarg );
+				break;	
+			case '?':
+				break;
+			default:
+				abort();
+    }	
+	}
+}
+
+
 int main(int argc, char **argv) {
 	
 	if(argc > 1 && strcmp(argv[1], "test") == 0) {
 		utests_t utests = alloc_utests();
 		return print_results(utests);
 	}
+ 	flags_handling(argc, argv);
+
 	
 	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
@@ -40,7 +80,7 @@ int main(int argc, char **argv) {
 	place(game, (int*)actives, 5);
 	move(game, 1, 0, NULL);
 	while(wait_cmd(game)) {}
-	
+  
 	free(game);
 	return EXIT_SUCCESS;
 }
