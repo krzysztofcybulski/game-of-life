@@ -44,7 +44,7 @@ int wait_cmd(game_t game) {
 	else if(strcmp(cmd, "set_size") == 0) {
 		scanf("%d", &tmp);
 		scanf("%d", &tmp2);
-		clean(game, tmp, tmp);
+		clean(game, tmp, tmp2);
 		printf("Set size to %dx%d\n", tmp, tmp2);
 	}
 	else if(strcmp(cmd, "exit") == 0)
