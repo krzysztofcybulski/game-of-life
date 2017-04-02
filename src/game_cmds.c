@@ -5,7 +5,6 @@
 
 #include "game/game.h"
 #include "game/map.h"
-#include "utils/delay.h"
 #include "utils/colors.h"
 
 void print_map(map_t map) {
