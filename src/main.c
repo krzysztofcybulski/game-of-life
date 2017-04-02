@@ -19,7 +19,7 @@ void flags_handling(int argc, char ** args) {
 	int c;
 
 	while(1) {
-		map_t map = alloc_map("nowa_mapa", 0, 0);	
+		//map_t map = alloc_map("nowa_mapa", 0, 0);	
 
 		static struct option long_option[] = {
 			{"rules", required_argument,0, 'r'},
@@ -38,19 +38,19 @@ void flags_handling(int argc, char ** args) {
 
 		switch(c) {
 			case 'c':
-				printf("option -c with value %s\n", optarg);
+				//printf("option -c with value %s\n", optarg);
 				break;
 			case 'r':
 				printf("option -r with value %s\n", optarg);
-				rules_t r = load_rules(optarg);
+				//rules_t r = load_rules(optarg);
 				break;
 			case 'h':
 				printf("option -h with value %s\n", optarg);
-				map->height = optarg;
+				//map->height = optarg;
 				break;
 			case 'w':
 				printf("option -w with value %s\n", optarg);
-				map->width = optarg;
+				//map->width = optarg;
 				break;		
 			case '?':
 				break;
@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 	r->neighbours_amount = 8;
 	r->neighbours = ne;
 	
-	map_t map = alloc_map("nowa_mapa", map->width, map->height);
+	map_t map = alloc_map("nowa_mapa", 20, 20);
 	game_t game = start(r, map);
 	
 	int actives[] = {1, 22, 40, 41, 42};

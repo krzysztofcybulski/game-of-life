@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
 #include "game/game.h"
 #include "game/map.h"
+#include "game/png_generator.h"
 #include "utils/delay.h"
 #include "utils/colors.h"
 
@@ -23,7 +25,19 @@ void print_map(map_t map) {
 void print_actives(game_t game) {
 	printf("n = %d (%d)\n", game->actives_amount, game->actives_amount * (game->rules->neighbours_amount * 2 + 1));
 }
+void snap(game_t game, char *name) {
+	char path[50];
+	strcpy(path, name);
+	int n = strlen(name);
+	sprintf(path+n, "%03d-", game->age);
+	strcat(path, ".png");
+	printf("Saving to: %s\n", path);
 
+
+	process_file(game->map);
+	write_png_file(path);
+
+}
 void move(game_t game, int n, int delay_time, char* filename) {
 	step(game);
 	system("clear");
@@ -65,16 +79,3 @@ void clean(game_t game, int height, int width) {
 	game->map = new_map;
 }
 
-void snap(game_t game, char *name) {
-	char path[50];
-	strcpy(path, name);
-	int n = strlen(name);
-	sprintf(path+n, "%03d-", game->age);
-	strcat(path, ".png");
-	printf("Saving to: %s\n", path);
-
-
-	process_file(game->map);
-	write_png_file(path);
-
-}
