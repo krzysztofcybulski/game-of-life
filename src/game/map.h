@@ -13,7 +13,7 @@ typedef struct Map {
     int *cells;
 } *map_t;
 
-map_t alloc_map(int, int);
+map_t alloc_map(char*, int, int);
 int load_map(FILE*);
 
 int invert(map_t, int);

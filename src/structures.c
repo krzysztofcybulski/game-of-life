@@ -35,19 +35,20 @@ int load_all_structs(structs_t structs) {
 map_t load_structure(char *name) {
 	char path[50]="resources/structures/";
 	strcat(path, name);
-	char buffor[50];
+	char map_name[50];
 	int i=0, w, h;
 	FILE *in = fopen(path, "r");
 
 	if(in == NULL) 
 		printf("blad otwarcia pliku load_structure!");
 
-	fscanf(in, "%s %d %d", buffor, &h, &w);
+	fscanf(in, "%s %d %d", map_name, &h, &w);
 
 	
-	map_t load = alloc_map(h, w);
-	while(fscanf(in, "%d", &load->cells[i] )==1) 
-		i++;
+	map_t load = alloc_map(map_name, h, w);
+
+	for(i = 0; i < load->height * load->width; i++)
+		if(fscanf(in, "%d", &load->cells[i] )==1);
 
 	fclose(in);
 
@@ -62,7 +63,7 @@ int save_structure(char *name, map_t struc) {
 		printf("blad otwarcia pliku save_structure!");
 		return -1;
 	}
-	fprintf(out, "Map %d %d\n", struc->width, struc->height);
+	fprintf(out, "%s %d %d\n",struc->name, struc->width, struc->height);
 	int i;
 	for(i=0; i< (struc->width * struc->height); i++)
 		fprintf(out, "%d ", struc->cells[i]);

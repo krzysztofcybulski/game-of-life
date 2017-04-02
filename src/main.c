@@ -8,6 +8,7 @@
 #include "game/game.h"
 #include "game/rules.h"
 #include "game/map.h"
+#include "game/rules.h"
 #include "test/test.h"
 #include "game/game_cmds.h"
 #include "parser/cmd.h"
@@ -18,15 +19,18 @@ void flags_handling(int argc, char ** args) {
 	int c;
 
 	while(1) {
+		map_t map = alloc_map("nowa_mapa", 0, 0);	
+
 		static struct option long_option[] = {
 			{"rules", required_argument,0, 'r'},
-			{"size ", required_argument, 0, 's'},
+			{"height ", required_argument, 0, 'h'},
+			{"width ", required_argument, 0, 'w'},
 			{"config", required_argument, 0, 'c'}, 
 			{0, 0, 0, 0}
 
 		};
 		int index = 0;
-		c = getopt_long(argc, args, "c:r:s:", long_option, &index);
+		c = getopt_long(argc, args, "c:h:w:s:", long_option, &index);
 
 		if(c == -1) {
 			break;
@@ -34,19 +38,25 @@ void flags_handling(int argc, char ** args) {
 
 		switch(c) {
 			case 'c':
-				printf("option -c with value %s\n",optarg );
+				printf("option -c with value %s\n", optarg);
 				break;
 			case 'r':
-				printf("option -r with value %s\n",optarg );
+				printf("option -r with value %s\n", optarg);
+				rules_t r = load_rules(optarg);
 				break;
-			case 's':
-				printf("option -s with value %s\n",optarg );
-				break;	
+			case 'h':
+				printf("option -h with value %s\n", optarg);
+				map->height = optarg;
+				break;
+			case 'w':
+				printf("option -w with value %s\n", optarg);
+				map->width = optarg;
+				break;		
 			case '?':
 				break;
 			default:
 				abort();
-    }	
+   		}
 	}
 }
 
@@ -73,7 +83,7 @@ int main(int argc, char **argv) {
 	r->neighbours_amount = 8;
 	r->neighbours = ne;
 	
-	map_t map = alloc_map(20, 20);
+	map_t map = alloc_map("nowa_mapa", map->width, map->height);
 	game_t game = start(r, map);
 	
 	int actives[] = {1, 22, 40, 41, 42};

@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-map_t alloc_map(int height, int width) {
+map_t alloc_map(char *name, int height, int width) {
 	map_t map = (map_t) malloc(sizeof(struct Map));
-	
+	map->name = name; 
 	map->height = height;
 	map->width = width;
 	

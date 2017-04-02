@@ -28,7 +28,7 @@ void move(game_t game, int n, int delay_time, char* filename) {
 	step(game);
 	system("clear");
 	if(filename != NULL) {
-		printf("Saving to: %s\n", filename);
+		snap(game, filename);
 	}
 	print_actives(game);
 	print_map(game->map);
@@ -59,8 +59,22 @@ void random_map(game_t game, int density) {
 }
 
 void clean(game_t game, int height, int width) {
-	map_t new_map = alloc_map(game->map->height, game->map->width);
+	map_t new_map = alloc_map("nowa",height, width);
 	free(game->map);
 	game->actives_amount = 0;
 	game->map = new_map;
+}
+
+void snap(game_t game, char *name) {
+	char path[50];
+	strcpy(path, name);
+	int n = strlen(name);
+	sprintf(path+n, "%03d-", game->age);
+	strcat(path, ".png");
+	printf("Saving to: %s\n", path);
+
+
+	process_file(game->map);
+	write_png_file(path);
+
 }
