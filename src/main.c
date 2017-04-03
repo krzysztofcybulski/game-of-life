@@ -6,6 +6,7 @@
 #include "utils/colors.h"
 
 #include "game/game.h"
+#include "game/structures.h"
 #include "game/rules.h"
 #include "game/golsh.h"
 #include "game/map.h"
@@ -16,42 +17,44 @@
 
 rules_t load_test_rules();
 
-void flags_handling(int argc, char ** args) {
+game_t flags_handling(int argc, char ** args) {
 	int c;
-
+	
+	int height = 20;
+	int width = 20;
+	map_t map = alloc_map("main", height, width);
+	rules_t rules = load_rules("conway_moor");
+	
 	while(1) {
-		//map_t map = alloc_map("nowa_mapa", 0, 0);	
-
 		static struct option long_option[] = {
-			{"rules", required_argument,0, 'r'},
+			{"rules", required_argument, 0, 'r'},
 			{"height ", required_argument, 0, 'h'},
 			{"width ", required_argument, 0, 'w'},
-			{"config", required_argument, 0, 'c'}, 
+			{"map", required_argument, 0, 'm'}, 
 			{0, 0, 0, 0}
 
 		};
+		
 		int index = 0;
-		c = getopt_long(argc, args, "c:h:w:s:", long_option, &index);
+		c = getopt_long(argc, args, "m:h:w:s:", long_option, &index);
 
-		if(c == -1) {
+		if(c == -1)
 			break;
-		}
 
 		switch(c) {
-			case 'c':
-				//printf("option -c with value %s\n", optarg);
+			case 'm':
+				free(map);
+				map = load_structure(optarg);
 				break;
 			case 'r':
-				printf("option -r with value %s\n", optarg);
-				//rules_t r = load_rules(optarg);
+				free(rules);
+				rules = load_rules(optarg);
 				break;
 			case 'h':
-				printf("option -h with value %s\n", optarg);
-				//map->height = optarg;
+				height = atoi(optarg);
 				break;
 			case 'w':
-				printf("option -w with value %s\n", optarg);
-				//map->width = optarg;
+				width = atoi(optarg);
 				break;		
 			case '?':
 				break;
@@ -59,6 +62,14 @@ void flags_handling(int argc, char ** args) {
 				abort();
    		}
 	}
+	
+	if(strcmp(map->name, "main") == 0) {
+		free(map);
+		map = alloc_map("main", height, width);
+		printf("ELO! %s %d\n", rules->name, rules->born_n);
+	}
+	
+	return start(rules, map);
 }
 
 
@@ -68,29 +79,15 @@ int main(int argc, char **argv) {
 		utests_t utests = alloc_utests();
 		return print_results(utests);
 	}
- 	flags_handling(argc, argv);
-
-	
-	rules_t r = (rules_t) malloc(sizeof(struct Rules));
-	r->name = "test";
-	int live[2] = {12, 13};
-	r->live = (int*)live;
-	r->live_n = 2;
-	int born[1] = {3};
-	r->born = (int*)born;
-	r->born_n = 1;
-	int neighbours[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
-	int (*ne)[2] = neighbours;
-	r->neighbours_amount = 8;
-	r->neighbours = ne;
-	
-	map_t map = alloc_map("nowa_mapa", 20, 20);
-	game_t game = start(r, map);
+ 	
+	game_t game = flags_handling(argc, argv);
 	
 	int actives[] = {1, 22, 40, 41, 42};
 	place(game, (int*)actives, 5);
 	move(game, 1, 0, NULL);
 
+	printf("I: %d\n", game->actives_amount);
+	
     golsh_loop(game);
 
 	free(game);

@@ -25,21 +25,25 @@ all_rules_t alloc_all_rules() {
 	return all_rules;
 }
 rules_t load_rules(char  *name) {
-	char path[50]="resources/rules/";
+	char path[128];
 	char rules_name[50];
 	int born_n, live_n, neighbours_amount;
 	strcat(path, name);
-	char buf[50];
+	
+	snprintf(path, 128, "resources/rules/%s", name);
+	
+	char buf[128];
 	int i;
 	FILE *in = fopen(path, "r");
 
 	if(in == NULL) 
 		printf("blad otwarcia pliku load_rules!");
-
+	
 	fscanf(in, "%s %s", buf, rules_name);
 	fscanf(in, "%s %d", buf, &live_n);
 	fscanf(in, "%s %d", buf, &born_n);
 	fscanf(in, "%s %d", buf, &neighbours_amount);
+	printf("%s %d\n", buf, neighbours_amount);
 
 	int neighbours[neighbours_amount][2]; 
 	rules_t rules = alloc_rules(rules_name, live_n, born_n, neighbours_amount);
@@ -61,7 +65,7 @@ rules_t load_rules(char  *name) {
 	rules->neighbours = ne;
 
 	fclose(in);
-
+	
 	return rules;
 
 
