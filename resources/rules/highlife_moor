@@ -1,0 +1,15 @@
+name: HighLife
+live_n: 2
+live: 2, 3
+born_n: 2
+born: 3, 6
+neighbours_n: 8
+neighbours:
+-1 -1
+0 -1
+1 -1
+-1 0
+1 0
+-1 1
+0 -1
+1 -1
