@@ -12,7 +12,7 @@ void print_map(map_t map) {
 	for(i = 0; i < map->height; i++) {
 		for(j = 0; j < map->width; j++)
 			if(map->cells[i * map->width + j] > SPLITTER)
-				printf("%s%s%s ", KCYN, "X", KNRM);
+				printf("%s%s%s", KCYN, "X", KNRM);
 			else
 				printf(" ");
 		printf("\n");
