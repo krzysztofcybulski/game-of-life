@@ -7,6 +7,7 @@
 
 #include "game/game.h"
 #include "game/rules.h"
+#include "game/golsh.h"
 #include "game/map.h"
 #include "game/rules.h"
 #include "test/test.h"
@@ -89,8 +90,8 @@ int main(int argc, char **argv) {
 	int actives[] = {1, 22, 40, 41, 42};
 	place(game, (int*)actives, 5);
 	move(game, 1, 0, NULL);
-	
-    golsh_loop();
+
+    golsh_loop(game);
 
 	free(game);
 	return EXIT_SUCCESS;

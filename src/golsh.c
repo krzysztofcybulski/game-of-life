@@ -6,6 +6,8 @@
 #include "game/map.h"
 #include "game/rules.h"
 #include "game/game.h"
+#include "game/png_generator.h"
+#include "game/game_cmds.h"
 
 #define BUFFSIZE 1024
 #define DELIM " \t\n\r\a"
@@ -41,7 +43,7 @@ char **golsh_split_line(char *line) {
     tokens[position] = NULL;
     return tokens;
 }
-void help(char **command) {
+void help_c(char **command, game_t game) {
     printf("Info and instuction about available function\n");
     printf("%-20s %s\n","SET_RULE", "set_rule <nazwa>");
     printf("%-20s %s\n","EXIT", "konczy program");
@@ -55,13 +57,13 @@ void help(char **command) {
     printf("%-20s %s\n","RANDOM", "random <x>, Losowe zapelnienie planszy w x%");
 
 }
-void show_rules(char **command) {
+void show_rules_c(char **command, game_t game) {
     ;
 }
-void set_rules(char **command) {
+void set_rules_c(char **command, game_t game) {
 	;
 }
-void place(char **command) {
+void place_c(char **command, game_t game) {
     int tmp = atoi(command[1]);
     int tmp2 = atoi(command[2]);
 
@@ -69,37 +71,36 @@ void place(char **command) {
     place(game, (int*)actives, 1);
     printf("Placed cell in %d %d\n", tmp, tmp2);
 }
-void set_size(char **command) {
+void set_size_c(char **command, game_t game) {
     int tmp = atoi(command[1]);
     int tmp2 = atoi(command[2]);
     clean(game, tmp, tmp);
     printf("Set size to %dx%d\n", tmp, tmp2);   	
 }
-void next(char **command) {
+void next_c(char **command, game_t game) {
     move(game, 1, 0, NULL);
 		
 }
-void play(char **command) {
+void play_c(char **command, game_t game) {
     int tmp = atoi(command[1]);
     int tmp2 = atoi(command[2]);
-    int atmp = atoi(command[3]);
-    move(game, tmp, tmp2, stmp);
+    move(game, tmp, tmp2, command[3]);
 }
-void random(char **command) {
+void random_c(char **command, game_t game) {
     int tmp = atoi(command[1]);
     random_map(game, tmp);
     move(game, 1, 0, NULL);
 }
-void snap(char **command) {
+void snap_c(char **command, game_t game) {
     snap(game, command[1]);
 
 }	
-void clean(char **command) {
+void clean_c(char **command, game_t game) {
     clean(game, game->map->height, game->map->width);
     move(game, 1, 0, NULL);  
 }   
 
-int ruun(char **command) {
+int ruun(char **command, game_t game) {
 	//to lower
 	char *c;
 	for(c = command[0]; *c != '\0'; c++) {
@@ -107,31 +108,31 @@ int ruun(char **command) {
 	}
 
     if (strcmp(command[0], "help")==0 && command[1] == NULL) {
-        help(command);
+        help_c(command, game);
     } else if (strcmp(command[0], "exit")==0) {
     	exit(EXIT_SUCCESS);
     } else if (strcmp(command[0], "show_rules") == 0) {
-    	show_rules(command);
+    	show_rules_c(command, game);
     } else if (strcmp(command[0], "set_rules") == 0) {
-    	set_rules(command);
+    	set_rules_c(command, game);
     } else if (strcmp(command[0], "clean") == 0) {
-        clean(command);
+        clean_c(command, game);
     } else if (strcmp(command[0], "set_size") == 0) {
-    	set_size(command);
+    	set_size_c(command, game);
     } else if (strcmp(command[0], "place") == 0) {
-    	place(command);
-    } else if (strcmp(command[0], "next") == 0 || strcmp(command[0], "n")) {
-    	next(command);
+    	place_c(command, game);
+    } else if (strcmp(command[0], "next") == 0 || strcmp(command[0], "n")==0) {
+    	next_c(command, game);
     } else if (strcmp(command[0], "play") == 0) {
-    	play(command);
+    	play_c(command, game);
     } else if (strcmp(command[0], "save") == 0) {
-    	snap(command);
+    	snap_c(command, game);
     } else
         return 1;
 
     return 1;
 }
-void golsh_loop() {
+void golsh_loop(game_t game) {
     char *line;
     char **args;
     int status;
@@ -141,19 +142,7 @@ void golsh_loop() {
         printf("> ");
         line = fgets(buffer, BUFFSIZE, stdin);
         args = golsh_split_line(line);
-        status = ruun(args);
+        status = ruun(args, game);
 
     } while (status);
 }
-
-
-
-/*
-int main (int argc, char **argv) {
-
-    golsh_loop();
-
-
-    return 0;
-}
-*/
