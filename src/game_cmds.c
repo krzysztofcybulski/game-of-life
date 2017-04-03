@@ -26,10 +26,11 @@ void print_actives(game_t game) {
 	printf("n = %d (%d)\n", game->actives_amount, game->actives_amount * (game->rules->neighbours_amount * 2 + 1));
 }
 void snap(game_t game, char *name) {
-	char path[50];
-	strcpy(path, name);
+	char path[128];
+	strcpy(path, "/resources/snaps/");
+	strcat(path, name);
 	int n = strlen(name);
-	sprintf(path+n, "%03d-", game->age);
+	sprintf(path+n, "-%03d", game->age);
 	strcat(path, ".png");
 	printf("Saving to: %s\n", path);
 

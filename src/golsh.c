@@ -47,51 +47,57 @@ void help() {
     printf("%-20s %s\n","EXIT", "konczy program");
     printf("%-20s %s\n","SHOW_RULES", "pokazuje dostepne zasady");
     printf("%-20s %s\n","SET_SIZE", "set_size <rozmiar>");
-    printf("%-20s %s\n","PLACE", "place <x> <y> <nazwa>");
-    printf("%-20s %s\n","SET", "set <x> <y> [stan]");
-    printf("%-20s %s\n","GO", "go <n>");
+    printf("%-20s %s\n","PLACE", "place <x> <y> ");
     printf("%-20s %s\n","NEXT OR N", "przychodzi jedna generacje dalej");
-    printf("%-20s %s\n","BACK OR B", "cofa sie o jedna generacje");
     printf("%-20s %s\n","PLAY", "play <n> [delay] [name]");
-    printf("%-20s %s\n","SHOW", "wyświetla okno z wizualizacją planszy");
-    printf("%-20s %s\n","SAVE", "zapisuje plik .png o nazwie [name]");
+    printf("%-20s %s\n","SNAP", " snap <name> zapisuje plik .png o nazwie name");
+    printf("%-20s %s\n","CLEAN", "czysci plansze");
+    printf("%-20s %s\n","RANDOM", "random <x>, Losowe zapelnienie planszy w x%");
 
 }
-void show_rules() {
-    printf("1. Sasiedztwo Moore'a  \n");
+void show_rules(char **command) {
+    ;
+}
+void set_rules(char **command) {
+	;
+}
+void place(char **command) {
+    int tmp = atoi(command[1]);
+    int tmp2 = atoi(command[2]);
 
+    int actives[] = {(tmp * game->map->width) + tmp2};
+    place(game, (int*)actives, 1);
+    printf("Placed cell in %d %d\n", tmp, tmp2);
 }
-int set_rules(char **command) {
-	;
+void set_size(char **command) {
+    int tmp = atoi(command[1]);
+    int tmp2 = atoi(command[2]);
+    clean(game, tmp, tmp);
+    printf("Set size to %dx%d\n", tmp, tmp2);   	
 }
-int set_size(char **command) {
-	;
+void next(char **command) {
+    move(game, 1, 0, NULL);
+		
 }
-int set(char **command) {
-	;
+void play(char **command) {
+    int tmp = atoi(command[1]);
+    int tmp2 = atoi(command[2]);
+    int atmp = atoi(command[3]);
+    move(game, tmp, tmp2, stmp);
 }
-int go(char **command) {
-	;
+void random(char **command) {
+    int tmp = atoi(command[1]);
+    random_map(game, tmp);
+    move(game, 1, 0, NULL);
 }
-int next() {
-	//int increment(map_t, int, int);
-		;
-}
-int back() {
-	//int inverse(map_t, int, int);	
-	;
-}
-int play(char **command) {
-	;
-}
+void snap(char **command) {
+    snap(game, command[1]);
 
-int show() {
-	;
-}
-int save(char **command) {
-	;
 }	
-
+void clean(char **command) {
+    clean(game, game->map->height, game->map->width);
+    move(game, 1, 0, NULL);  
+}   
 
 int ruun(char **command) {
 	//to lower
@@ -108,10 +114,12 @@ int ruun(char **command) {
     	show_rules();
     } else if (strcmp(command[0], "set_rules") == 0) {
     	set_rules(command);
+    } else if (strcmp(command[0], "clean") == 0) {
+        clean(command);
     } else if (strcmp(command[0], "set_size") == 0) {
     	set_size(command);
-//    } else if (strcmp(command[0], "place") == 0) {
-//    	place();
+    } else if (strcmp(command[0], "place") == 0) {
+    	place();
     } else if (strcmp(command[0], "set") == 0) {
     	set(command);
     } else if (strcmp(command[0], "go") == 0) {
