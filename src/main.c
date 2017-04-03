@@ -89,8 +89,9 @@ int main(int argc, char **argv) {
 	int actives[] = {1, 22, 40, 41, 42};
 	place(game, (int*)actives, 5);
 	move(game, 1, 0, NULL);
-	while(wait_cmd(game)) {}
-  
+	
+    golsh_loop();
+
 	free(game);
 	return EXIT_SUCCESS;
 }

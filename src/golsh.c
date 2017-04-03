@@ -41,7 +41,7 @@ char **golsh_split_line(char *line) {
     tokens[position] = NULL;
     return tokens;
 }
-void help() {
+void help(char **command) {
     printf("Info and instuction about available function\n");
     printf("%-20s %s\n","SET_RULE", "set_rule <nazwa>");
     printf("%-20s %s\n","EXIT", "konczy program");
@@ -107,11 +107,11 @@ int ruun(char **command) {
 	}
 
     if (strcmp(command[0], "help")==0 && command[1] == NULL) {
-        help();
+        help(command);
     } else if (strcmp(command[0], "exit")==0) {
     	exit(EXIT_SUCCESS);
     } else if (strcmp(command[0], "show_rules") == 0) {
-    	show_rules();
+    	show_rules(command);
     } else if (strcmp(command[0], "set_rules") == 0) {
     	set_rules(command);
     } else if (strcmp(command[0], "clean") == 0) {
@@ -119,22 +119,13 @@ int ruun(char **command) {
     } else if (strcmp(command[0], "set_size") == 0) {
     	set_size(command);
     } else if (strcmp(command[0], "place") == 0) {
-    	place();
-    } else if (strcmp(command[0], "set") == 0) {
-    	set(command);
-    } else if (strcmp(command[0], "go") == 0) {
-    	go(command);
+    	place(command);
     } else if (strcmp(command[0], "next") == 0 || strcmp(command[0], "n")) {
-    	next();
-    } else if ((strcmp(command[0], "back") == 0) || (strcmp(command[0], "b")) == 0) {
-    	back();
+    	next(command);
     } else if (strcmp(command[0], "play") == 0) {
     	play(command);
-    } else if (strcmp(command[0], "show") == 0) {
-    	show();
     } else if (strcmp(command[0], "save") == 0) {
-    	save(command);
-
+    	snap(command);
     } else
         return 1;
 
