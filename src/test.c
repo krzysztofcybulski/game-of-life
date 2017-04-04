@@ -38,7 +38,7 @@ int print_results(utests_t utests) {
 		if(test_c->result)
 			printf("%s%s works great%s\n", KGRN, test_c->name, KNRM);
 		else {
-			printf("%s%s should be %p, but is %p%s\n", KRED, test_c->name, test_c->expected, test_c->returned, KNRM);
+			printf("%s%s should be %s, but is %s%s\n", KRED, test_c->name, test_c->expected, test_c->returned, KNRM);
 			utests->result = 0;
 		}
 	}

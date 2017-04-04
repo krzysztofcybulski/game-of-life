@@ -4,14 +4,17 @@
 #include <string.h>
 
 map_t alloc_map(int height, int width) {
+	int i;
+	
 	map_t map = (map_t) malloc(sizeof(struct Map));
 	
 	map->height = height;
 	map->width = width;
+	map->cells = malloc(height * width * sizeof(int));
 	
-	int cells_size = height * width * sizeof(int);
-	map->cells = malloc(cells_size);
-	memset(map->cells, 0, cells_size);
+	/*Zero map, we couldn't use memset*/
+	for(i = 0; i < height * width; i++)
+		map->cells[i] = 0;
 	
 	return map;
 }

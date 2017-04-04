@@ -22,24 +22,10 @@ int main(int argc, char **argv) {
 	/* Register all commands */
 	parser_t parser = alloc_parser(12);
 	register_all_cmds(parser);
-	print_help(parser);
 	
-	rules_t r = (rules_t) malloc(sizeof(struct Rules));
-	r->name = "test";
-	int live[2] = {12, 13};
-	r->live = (int*)live;
-	r->live_n = 2;
-	int born[1] = {3};
-	r->born = (int*)born;
-	r->born_n = 1;
-	int neighbours[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
-	int (*ne)[2] = neighbours;
-	r->neighbours_amount = 8;
-	r->neighbours = ne;
-	
+	rules_t rules = load_rules("conway_moor");
 	map_t map = alloc_map(20, 20);
-	game_t game = start(r, map);
-	
+	game_t game = start(rules, map);
     golsh_loop(game, parser);
   
 	free(game);

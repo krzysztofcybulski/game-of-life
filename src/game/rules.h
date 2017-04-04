@@ -18,6 +18,7 @@ typedef struct AllRules {
 	int rules_amount;
 } *all_rules_t;
 
+rules_t alloc_rules(char *name, int live_n, int born_n, int neighbours_amount);
 all_rules_t alloc_all_rules();
 int load_all_rules(all_rules_t all_rules);
 rules_t load_rules(char  *name);

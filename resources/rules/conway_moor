@@ -1,9 +1,9 @@
 name: Conway
 live_n: 2
-live: 2, 3
 born_n: 1
-born: 3
 neighbours_n: 8
+live: 12 13
+born: 3
 neighbours:
 -1 -1
 0 -1
@@ -11,5 +11,5 @@ neighbours:
 -1 0
 1 0
 -1 1
-0 -1
-1 -1
+0 1
+1 1

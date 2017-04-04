@@ -6,7 +6,6 @@ int is_active(game_t, int);
 
 game_t start(rules_t rules, map_t map) {
 	game_t game = (game_t) malloc(sizeof(struct Game));
-	
 	game->map = map;
 	game->rules = rules;
 	game->age = 0;
@@ -20,7 +19,6 @@ int is_active(game_t game, int state) {
 	rules_t rules = game->rules;
 	int i;
 	
-	
 	if(state >= SPLITTER) {
 		for(i = 0; i < rules->live_n; i++)
 			if(state == rules->live[i])
@@ -29,8 +27,10 @@ int is_active(game_t game, int state) {
 	}
 	else {
 		for(i = 0; i < rules->born_n; i++)
-			if(state == rules->born[i])
+			if(state == rules->born[i]) {
+				printf("X: %d\n", state);
 				return 1;
+			}
 		return 0;
 	}
 }
@@ -43,16 +43,16 @@ int invert_actives(map_t map, int* actives, int n) {
 }
 
 int step(game_t game) {
-
 	int i, j;
 	int *new_actives = (int*) malloc(game->actives_amount * 8 * sizeof(int));
 	int new_actives_amount = 0;
 	invert_actives(game->map, game->actives, game->actives_amount);
 	
 	for(i = 0; i < game->actives_amount; i++)
-		for(j = 0; j < game->rules->neighbours_amount; j++)
+		for(j = 0; j < game->rules->neighbours_amount; j++) {
 			increment(game->map, game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]), game->actives[i]);
-	
+		}
+		
 	for(i = 0; i < game->actives_amount; i++)
 		for(j = 0; j < game->rules->neighbours_amount; j++) {
 			int position = game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]);
