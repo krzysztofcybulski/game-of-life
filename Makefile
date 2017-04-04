@@ -7,7 +7,6 @@ LFLAGS	 = -Wall -lpng
 
 SRCDIR	 = src
 OBJDIR	 = obj
-BINDIR	 = bin
 
 SOURCES	 := $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
@@ -15,7 +14,7 @@ OBJECTS	 := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 rm		 = rm -f
 
 
-$(BINDIR)/$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $(OBJECTS)
 	@echo "Linking complete!"
 

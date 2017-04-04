@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <getopt.h>
 
+#include "utils/welcome.h"
 #include "test/test.h"
 
 #include "parser/parser.h"
@@ -23,6 +23,9 @@ int main(int argc, char **argv) {
 		return print_results(utests);
 	}
  	
+	/* Welcome message */
+	show_welcome(argv[0]);
+	
 	/* Register all commands */
 	parser_t parser = alloc_parser(12);
 	register_all_cmds(parser);
