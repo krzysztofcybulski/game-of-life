@@ -3,14 +3,13 @@
 #include <string.h>
 #include <getopt.h>
 
-
-
 #include "test/test.h"
 
 #include "parser/parser.h"
 #include "parser/cmd_proxy.h"
 #include "parser/commands.h"
 
+#include "game/flags.h"
 #include "game/map.h"
 #include "game/structures.h"
 #include "game/rules.h"

@@ -2,6 +2,9 @@
 #include "game/game_cmds.h"
 #include "game/structures.h"
 
+#define MIN_WIDTH 2
+#define MAX_WIDTH 999
+
 int register_all_cmds(parser_t parser) {
 	register_cmd(parser, "show_rules", 		"Help", show_rules_c);
 	register_cmd(parser, "set_rules",		"Help", set_rules_c);
@@ -34,8 +37,18 @@ int place_c(char **command, game_t game) {
 }
 
 int set_size_c(char **command, game_t game) {
-    printf("Set size to %dx%d\n", atoi(command[1]), atoi(command[2]));   
-	return clean(game, atoi(command[1]), atoi(command[2]));	
+	
+	int width = atoi(command[2]);
+	int height = atoi(command[1]);
+	
+	if(width < MIN_WIDTH || height < MIN_WIDTH || width > MAX_WIDTH || height > MAX_WIDTH) {
+		printf("Can't create map with such size.\n");
+		return 1;
+	}
+	else {
+		printf("Set size to %dx%d\n", height, width);   
+		return clean(game, height, width);	
+	}    
 }
 
 int next_c(char **command, game_t game) {

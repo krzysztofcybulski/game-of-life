@@ -22,8 +22,6 @@ game_t flags_handling(int argc, char ** args) {
 	int alloc = 0;
 
 	map_t map = alloc_map("main", height, width);
-
-
 	
 	while(1) {
 		static struct option long_option[] = {
@@ -65,10 +63,8 @@ game_t flags_handling(int argc, char ** args) {
    		}
 	}
 	
-		if(alloc == 0)
-			map = alloc_map("main", height, width);
-		printf("ELO! %s %d %d %d \n", rules->name, rules->born_n, rules->live_n, map->width);
-	
+	if(alloc == 0)
+		map = alloc_map("main", height, width);
 	
 	return start(rules, map);
 }
