@@ -62,6 +62,7 @@ int random_map(game_t game, int density) {
 int clean(game_t game, int height, int width) {
 	map_t new_map = alloc_map("main", height, width);
 	free(game->map);
+	free(game->actives);
 	game->actives_amount = 0;
 	game->map = new_map;
 	return 1;
