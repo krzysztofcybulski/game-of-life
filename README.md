@@ -9,7 +9,7 @@ Damian Rybicki
 Wersja 2.0
 
 # TODO
-* Komunikat powitalny
+* Komunikat powitalny :white_check_mark:
 * Restrykcje (np maksymalny rozmiar mapy)
 * show_rules i show_map
 * Naprawa "entera" :white_check_mark:
