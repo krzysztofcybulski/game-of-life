@@ -13,8 +13,8 @@ int register_all_cmds(parser_t parser) {
 	register_cmd(parser, "random", 			"Help", random_c);
 	register_cmd(parser, "snap", 			"Help", snap_c);
 	register_cmd(parser, "clean", 			"Help", clean_c);
-	register_cmd(parser, "save <name>", 	"Help", save_c);
-	register_cmd(parser, "load <name>", 	"Help", load_c);
+	register_cmd(parser, "save", 			"Help", save_c);
+	register_cmd(parser, "load", 			"Help", load_c);
 	register_cmd(parser, "exit", "Help", exit_c);
 	return 1;
 }
