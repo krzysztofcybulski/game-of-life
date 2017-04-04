@@ -27,10 +27,8 @@ int is_active(game_t game, int state) {
 	}
 	else {
 		for(i = 0; i < rules->born_n; i++)
-			if(state == rules->born[i]) {
-				printf("X: %d\n", state);
+			if(state == rules->born[i])
 				return 1;
-			}
 		return 0;
 	}
 }
@@ -86,6 +84,25 @@ int place(game_t game, int *actives, int n) {
 		game->actives[i] = actives[i - current_n];
 	
 	game->actives_amount = size;
+	
+	return 1;
+}
+
+
+int recalculate(game_t game) {
+	free(game->actives);
+	int size = game->map->height * game->map->width;
+	int *new_actives = (int*) malloc(size * sizeof(int));
+	int new_actives_amount = 0;
+	int i;
+	
+	for(i = 0; i < game->map->height * game->map->width; i++)
+		if(is_active(game, game->map->cells[i]))
+			new_actives[new_actives_amount++] = i;
+	
+	new_actives = realloc(new_actives, new_actives_amount * sizeof(int));
+	game->actives = new_actives;
+	game->actives_amount = new_actives_amount;
 	
 	return 1;
 }

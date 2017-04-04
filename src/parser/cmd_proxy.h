@@ -14,6 +14,8 @@ int play_c		(char **command, game_t game);
 int random_c	(char **command, game_t game);
 int snap_c		(char **command, game_t game);
 int clean_c		(char **command, game_t game);
+int save_c		(char **command, game_t game);
+int load_c		(char **command, game_t game);
 int exit_c		(char **command, game_t game);
 
 #endif

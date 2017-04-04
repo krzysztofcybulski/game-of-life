@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-map_t alloc_map(int height, int width) {
+map_t alloc_map(char *name, int height, int width) {
 	int i;
 	
 	map_t map = (map_t) malloc(sizeof(struct Map));
-	
+	map->name = malloc((strlen(name) + 1) * sizeof(char));
+	strcpy(map->name, name);
 	map->height = height;
 	map->width = width;
 	map->cells = malloc(height * width * sizeof(int));
@@ -17,10 +18,6 @@ map_t alloc_map(int height, int width) {
 		map->cells[i] = 0;
 	
 	return map;
-}
-
-int load_map(FILE* file) {
-	return 0;
 }
 
 int invert(map_t map, int position) {

@@ -11,8 +11,7 @@ rules_t load_rules(char  *name) {
 	strcat(path, name);
 	
 	snprintf(path, 128, "resources/rules/%s", name);
-	
-	printf("%s\n", path);
+
 	char buf[128];
 	int i;
 	FILE *in = fopen(path, "r");
