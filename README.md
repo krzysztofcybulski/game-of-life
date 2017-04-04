@@ -12,6 +12,6 @@ Wersja 2.0
 * Komunikat powitalny
 * Restrykcje (np maksymalny rozmiar mapy)
 * show_rules i show_map
-* Naprawa "entera"
+* Naprawa "entera" :white_check_mark:
 * Dokumentacja
-* Dodać instrukcje do help
+* Dodać instrukcje do help :white_check_mark:
