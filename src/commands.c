@@ -8,7 +8,6 @@
 #include "game/map.h"
 #include "game/rules.h"
 #include "game/game.h"
-#include "game/png_generator.h"
 #include "game/game_cmds.h"
 
 #define BUFFSIZE 1024

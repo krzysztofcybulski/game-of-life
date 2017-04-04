@@ -5,19 +5,18 @@
 #include "parser/parser.h"
 #include "parser/cmd_proxy.h"
 #include "parser/commands.h"
+#include "parser/flags.h"
 
 #include "game/map.h"
 #include "game/rules.h"
 #include "game/game.h"
 #include "game/structures.h"
-#include "game/flags.h"
-
 
 game_t flags_handling(int argc, char ** args) {
-	int c;
+	int height 	= DEFAULT_HEIGHT;
+	int width 	= DEFAULT_WIDTH;
 	
-	int height = 20;
-	int width = 20;
+	int c;
 	rules_t rules = load_rules("conway_moor");
 	int alloc = 0;
 
@@ -30,7 +29,6 @@ game_t flags_handling(int argc, char ** args) {
 			{"width ", required_argument, 0, 'w'},
 			{"map", required_argument, 0, 'm'}, 
 			{0, 0, 0, 0}
-
 		};
 		
 		int index = 0;

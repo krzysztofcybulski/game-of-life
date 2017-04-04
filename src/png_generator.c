@@ -5,7 +5,8 @@
 #include <stdarg.h>
 
 #include <png.h>
-#include "game/png_generator.h"
+
+#include "utils/png_generator.h"
 #include "game/map.h"
 
 int x, y;

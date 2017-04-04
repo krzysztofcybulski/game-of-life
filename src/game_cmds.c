@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include "game/game_cmds.h"
-#include "game/png_generator.h"
+#include "utils/png_generator.h"
 #include "utils/colors.h"
 
 void print_map(map_t map) {
@@ -41,7 +41,6 @@ int move(game_t game, int n, int delay_time, char* filename) {
 	return 1;
 }
 
-/* !UWAGA DZIWNE ZACHOWANIE! */
 int random_map(game_t game, int density) {
 	int max = game->map->width * game->map->height;
 	int n = max / 100 * density;

@@ -6,6 +6,12 @@
 
 #define SPLITTER 10
 
+#define MIN_WIDTH 2
+#define MAX_WIDTH 999
+
+#define DEFAULT_HEIGHT 20
+#define DEFAULT_WIDTH 20
+
 typedef struct Map {
 	char *name;
     int width;

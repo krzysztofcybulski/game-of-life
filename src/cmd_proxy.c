@@ -1,24 +1,24 @@
 #include "parser/cmd_proxy.h"
+
+#include "game/rules.h"
+#include "game/map.h"
 #include "game/game_cmds.h"
 #include "game/structures.h"
 
-#define MIN_WIDTH 2
-#define MAX_WIDTH 999
-
 int register_all_cmds(parser_t parser) {
-	register_cmd(parser, "show_rules", 		"Help", show_rules_c);
-	register_cmd(parser, "set_rules",		"Help", set_rules_c);
-	register_cmd(parser, "place", 			"Help", place_c);
-	register_cmd(parser, "set_size", 		"Help", set_size_c);
-	register_cmd(parser, "next", 			"Help", next_c);
+	register_cmd(parser, "show_rules", 		"Shows all available rules to choose from", show_rules_c);
+	register_cmd(parser, "set_rules",		"Sets <name> rules (see available by entering \"show_rules\")", set_rules_c);
+	register_cmd(parser, "place", 			"Changes cell state", place_c);
+	register_cmd(parser, "set_size", 		"Set map <height> and <width>", set_size_c);
+	register_cmd(parser, "next", 			"Goes to next generation", next_c);
 	register_cmd(parser, "n", 				"Alias for \"next\" command", next_c);
-	register_cmd(parser, "play", 			"Help", play_c);
-	register_cmd(parser, "random", 			"Help", random_c);
-	register_cmd(parser, "snap", 			"Help", snap_c);
-	register_cmd(parser, "clean", 			"Help", clean_c);
-	register_cmd(parser, "save", 			"Help", save_c);
-	register_cmd(parser, "load", 			"Help", load_c);
-	register_cmd(parser, "exit", "Help", exit_c);
+	register_cmd(parser, "play", 			"Shows <n> generations every <delay> milisecons and snaps them to <filename>", play_c);
+	register_cmd(parser, "random", 			"Creates random map with <density> density", random_c);
+	register_cmd(parser, "snap", 			"Snaps current genration to <filename>", snap_c);
+	register_cmd(parser, "clean", 			"Cleans map", clean_c);
+	register_cmd(parser, "save", 			"Saves map to <filename>", save_c);
+	register_cmd(parser, "load", 			"Loads <filename> map", load_c);
+	register_cmd(parser, "exit", 			"Exits program", exit_c);
 	return 1;
 }
 
@@ -27,6 +27,10 @@ int show_rules_c(char **command, game_t game) {
 }
 
 int set_rules_c(char **command, game_t game) {
+	rules_t rules = load_rules(command[1]);
+	free(game->rules);
+	game->rules = rules;
+	printf("Rules set to %s!\n", command[1]);
 	return 1;
 }
 
@@ -87,5 +91,6 @@ int load_c(char **command, game_t game) {
 }
 
 int exit_c(char **command, game_t game) {
+	printf("Goodbye!\n");
 	exit(0);
 }

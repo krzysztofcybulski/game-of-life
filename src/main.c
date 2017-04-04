@@ -8,13 +8,12 @@
 #include "parser/parser.h"
 #include "parser/cmd_proxy.h"
 #include "parser/commands.h"
+#include "parser/flags.h"
 
-#include "game/flags.h"
 #include "game/map.h"
 #include "game/structures.h"
 #include "game/rules.h"
 #include "game/game.h"
-#include "game/flags.h"
 
 int main(int argc, char **argv) {
 	
@@ -28,15 +27,12 @@ int main(int argc, char **argv) {
 	parser_t parser = alloc_parser(12);
 	register_all_cmds(parser);
 	
+	/* Start game using given flags */
 	game_t game = flags_handling(argc, argv);
-
-/*	rules_t rules = load_rules("conway_moor");
-	map_t map = load_structure("spaceship");//alloc_map(20, 20);
-	game_t game = start(rules, map);*/
-
-	recalculate(game);
+	
+	/* Wait for commands */
     golsh_loop(game, parser);
-  
+	
 	free(game);
 	return EXIT_SUCCESS;
 }
