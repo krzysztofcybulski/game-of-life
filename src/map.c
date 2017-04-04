@@ -5,8 +5,8 @@
 
 map_t alloc_map(char *name, int height, int width) {
 	map_t map = (map_t) malloc(sizeof(struct Map));
-//	char buffor[50];
-	map->name = name; 
+	map->name = malloc((strlen(name) +1 ) * sizeof(char));
+	strcpy(map->name, name);
 	map->height = height;
 	map->width = width;
 	

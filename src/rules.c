@@ -5,17 +5,17 @@
 
 rules_t alloc_rules(char *name, int live_n, int born_n, int neighbours_amount) {
 	rules_t rules = (rules_t) malloc(sizeof(struct Rules));
-	char buffor[50];
-
-	rules->name = malloc((strlen(name)+1) * sizeof(char));
-	rules->name = strcpy(buffor, name);
+	
+	rules->name = malloc((strlen(name) +1 ) * sizeof(char));
+	strcpy(rules->name, name);
 	rules->live_n = live_n;
 	rules->born_n = born_n;
 	rules->live = malloc(live_n * sizeof(int));
 	rules->born = malloc(born_n * sizeof(int));
 	rules->neighbours_amount = neighbours_amount;	
-	rules->neighbours = malloc(neighbours_amount * 2 * sizeof(int));
-	//lub 	rules->neighbours = malloc(neighbours_amount * sizeof(*rules->neighbours));
+	rules->neighbours = malloc(neighbours_amount *2* sizeof (int));
+
+	//rules->neighbours =(int**) malloc(neighbours_amount * sizeof*(rules->neighbours));
 
 	return rules;
 }
@@ -65,13 +65,16 @@ rules_t load_rules(char  *name) {
 	fscanf(in, "%s", buf);
 	for (i = 0; i < neighbours_amount; i++)
 		fscanf(in, "%d %d", &neighbours[i][0], &neighbours[i][1]);
+		
+
+	for ( i = 0; i < neighbours_amount; ++i) {
+		printf("%d %d\n",neighbours[i][0], neighbours[i][1] );
+	}
 	
-	
-	int (*ne)[2] = neighbours;
+    int (*ne)[2] = neighbours;
 	rules->neighbours = ne;
 
 	fclose(in);
-	printf("%s %d %d %d\n", rules_name, live_n, born_n, neighbours_amount);
 
 	return rules;
 
