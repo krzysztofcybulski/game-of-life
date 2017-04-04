@@ -22,6 +22,7 @@ map_t load_structure(char *name) {
 
 	if(in == NULL) 
 		printf("blad otwarcia pliku load_structure!");
+	printf("%s\n", path);
 
 	fscanf(in, "%s %d %d", map_name, &h, &w);
 
@@ -32,6 +33,7 @@ map_t load_structure(char *name) {
 
 	fclose(in);
 
+	printf("%s\n", map_name );
 	return load;
 
 }

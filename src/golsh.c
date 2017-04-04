@@ -125,10 +125,14 @@ int ruun(char **command, game_t game) {
     	next_c(command, game);
     } else if (strcmp(command[0], "play") == 0) {
     	play_c(command, game);
-    } else if (strcmp(command[0], "save") == 0) {
+    } else if (strcmp(command[0], "snap") == 0) {
     	snap_c(command, game);
-    } else
+    } else if (strcmp(command[0], "random") == 0) {
+        random_c(command, game);
+    } else {
+        printf("Nie ma takiej komendy, wpisz help aby uzyskac pomoc\n");
         return 1;
+    }   
 
     return 1;
 }

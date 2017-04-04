@@ -1,8 +1,8 @@
-name: Conway
+name: Conway_Moor
 live_n: 2
 born_n: 1
 neighbours_n: 8
-live: 2, 3
+live: 2 3
 born: 3
 neighbours:
 -1 -1

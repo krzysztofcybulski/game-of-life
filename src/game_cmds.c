@@ -27,13 +27,7 @@ void print_actives(game_t game) {
 }
 void snap(game_t game, char *name) {
 	char path[128];
-/*	strcpy(path, "/resources/snaps/");
-	strcat(path, name);
-	int n = strlen(name);
-	sprintf(path+n, "-%03d", game->age);
-	strcat(path, ".png");
-	printf("Saving to: %s\n", path);
-*/	
+
 	snprintf(path, 128, "resources/snaps/%s-%03d.png", name, game->age);
 	printf("Saving to: %s\n", path);
 

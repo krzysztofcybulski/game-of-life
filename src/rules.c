@@ -5,11 +5,14 @@
 
 rules_t alloc_rules(char *name, int live_n, int born_n, int neighbours_amount) {
 	rules_t rules = (rules_t) malloc(sizeof(struct Rules));
-	rules->name = name;
+	char buffor[50];
+
+	rules->name = malloc((strlen(name)+1) * sizeof(char));
+	rules->name = strcpy(buffor, name);
 	rules->live_n = live_n;
 	rules->born_n = born_n;
-	rules->live = malloc(live_n * sizeof(*rules->live));
-	rules->born = malloc(born_n * sizeof(*rules->born));
+	rules->live = malloc(live_n * sizeof(int));
+	rules->born = malloc(born_n * sizeof(int));
 	rules->neighbours_amount = neighbours_amount;	
 	rules->neighbours = malloc(neighbours_amount * 2 * sizeof(int));
 	//lub 	rules->neighbours = malloc(neighbours_amount * sizeof(*rules->neighbours));
@@ -26,12 +29,15 @@ all_rules_t alloc_all_rules() {
 }
 rules_t load_rules(char  *name) {
 	char path[128];
-	char rules_name[50];
+	char rules_name[128];
 	int born_n, live_n, neighbours_amount;
 	strcat(path, name);
 	
 	snprintf(path, 128, "resources/rules/%s", name);
 	
+	printf("%s\n", path);
+
+
 	char buf[128];
 	int i;
 	FILE *in = fopen(path, "r");
@@ -43,7 +49,6 @@ rules_t load_rules(char  *name) {
 	fscanf(in, "%s %d", buf, &live_n);
 	fscanf(in, "%s %d", buf, &born_n);
 	fscanf(in, "%s %d", buf, &neighbours_amount);
-	printf("%s %d\n", buf, neighbours_amount);
 
 	int neighbours[neighbours_amount][2]; 
 	rules_t rules = alloc_rules(rules_name, live_n, born_n, neighbours_amount);
@@ -51,21 +56,23 @@ rules_t load_rules(char  *name) {
 	fscanf(in, "%s", buf);
 	for(i = 0; i < live_n; i++)
 		fscanf(in, "%d", &rules->live[i]);
+	
 
 	fscanf(in, "%s", buf);
 	for(i = 0; i < born_n; i++)
 		fscanf(in, "%d", &rules->born[i]);
-
-
+	
 	fscanf(in, "%s", buf);
 	for (i = 0; i < neighbours_amount; i++)
 		fscanf(in, "%d %d", &neighbours[i][0], &neighbours[i][1]);
+	
 	
 	int (*ne)[2] = neighbours;
 	rules->neighbours = ne;
 
 	fclose(in);
-	
+	printf("%s %d %d %d\n", rules_name, live_n, born_n, neighbours_amount);
+
 	return rules;
 
 

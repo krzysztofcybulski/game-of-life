@@ -1,9 +1,9 @@
-name: Conway
+name: Conway_Neumman
 live_n: 2
-live: 2, 3
 born_n: 1
-born: 3
 neighbours_n: 4
+live: 2 3
+born: 3
 neighbours:
 0 -1
 0 1

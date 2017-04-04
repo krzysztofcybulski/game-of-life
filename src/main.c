@@ -10,22 +10,23 @@
 #include "game/rules.h"
 #include "game/golsh.h"
 #include "game/map.h"
-#include "game/rules.h"
 #include "test/test.h"
 #include "game/game_cmds.h"
 #include "parser/cmd.h"
 
-rules_t load_test_rules();
 
 game_t flags_handling(int argc, char ** args) {
 	int c;
 	
 	int height = 20;
 	int width = 20;
-	map_t map = alloc_map("main", height, width);
 	rules_t rules = load_rules("conway_moor");
+
+	printf("dziala\n");
+	map_t map = load_structure("sample_map");
+
 	
-	while(1) {
+/*	while(1) {
 		static struct option long_option[] = {
 			{"rules", required_argument, 0, 'r'},
 			{"height ", required_argument, 0, 'h'},
@@ -47,8 +48,8 @@ game_t flags_handling(int argc, char ** args) {
 				map = load_structure(optarg);
 				break;
 			case 'r':
-				free(rules);
-				rules = load_rules(optarg);
+				//free(rules);
+				//rules = load_rules(optarg);
 				break;
 			case 'h':
 				height = atoi(optarg);
@@ -61,13 +62,13 @@ game_t flags_handling(int argc, char ** args) {
 			default:
 				abort();
    		}
-	}
+	}*/
 	
-	if(strcmp(map->name, "main") == 0) {
+/*	if(strcmp(map->name, "main") != 0) {
 		free(map);
 		map = alloc_map("main", height, width);
-		printf("ELO! %s %d\n", rules->name, rules->born_n);
-	}
+		printf("ELO! %s %d %d %d \n", rules->name, rules->born_n, rules->live_n, map->width);
+	}*/
 	
 	return start(rules, map);
 }
@@ -79,16 +80,25 @@ int main(int argc, char **argv) {
 		utests_t utests = alloc_utests();
 		return print_results(utests);
 	}
- 	
+ 	printf("TU jeszcze dziala przed flags_handling\n");
 	game_t game = flags_handling(argc, argv);
-	
+	printf("test\n");
+	printf("RULES %s %d %d %d\n", game->rules->name, game->rules->live_n, game->rules->born_n, game->rules->neighbours_amount);
+	printf("MAP %s %d %d \n", game->map->name, game->map->width, game->map->height);
+
+//	printf("TU jeszcze dziala po flags_handling\n");
+	printf("TU jeszcze dziala 5\n");
+	printf("RULES %s %d %d %d\n", game->rules->name, game->rules->live_n, game->rules->born_n, game->rules->neighbours_amount);
+	printf("MAP %s %d %d \n", game->map->name, game->map->width, game->map->height);
+/*
 	int actives[] = {1, 22, 40, 41, 42};
 	place(game, (int*)actives, 5);
+
 	move(game, 1, 0, NULL);
 
-	printf("I: %d\n", game->actives_amount);
-	
-    golsh_loop(game);
+	printf("I: %d\n", game->actives_amount);*/
+
+	golsh_loop(game);
 
 	free(game);
 	return EXIT_SUCCESS;
