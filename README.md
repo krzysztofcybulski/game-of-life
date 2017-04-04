@@ -15,3 +15,4 @@ Wersja 2.0
 * Naprawa "entera" :white_check_mark:
 * Dokumentacja
 * Dodać instrukcje do help :white_check_mark:
+* Blokada uruchamiania komend ze złą ilością argumentów
