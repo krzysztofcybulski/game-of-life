@@ -48,6 +48,8 @@ char **golsh_split_line(char *line) {
 
 
 int run_cmd(char **command, game_t game, parser_t parser) {
+	if(command[0] == NULL)
+		return 1;
 	int i;
 	for(i = 0; i < parser->commands_amount; i++)
 		if(strcmp(parser->commands[i]->name, command[0]) == 0)
