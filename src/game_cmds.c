@@ -3,8 +3,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "game/game.h"
-#include "game/map.h"
+#include "game/game_cmds.h"
+#include "game/png_generator.h"
 #include "utils/colors.h"
 
 void print_map(map_t map) {
@@ -23,12 +23,12 @@ void print_actives(game_t game) {
 	printf("n = %d (%d)\n", game->actives_amount, game->actives_amount * (game->rules->neighbours_amount * 2 + 1));
 }
 
-void move(game_t game, int n, int delay_time, char* filename) {
+int move(game_t game, int n, int delay_time, char* filename) {
 	step(game);
 	system("clear");
-	if(filename != NULL) {
-		printf("Saving to: %s\n", filename);
-	}
+	if(filename != NULL)
+		snap(game, filename);
+	
 	print_actives(game);
 	print_map(game->map);
 	
@@ -38,10 +38,11 @@ void move(game_t game, int n, int delay_time, char* filename) {
 		n = 0;
 	if(n > 1)
 		move(game, --n, delay_time, filename);
+	return 1;
 }
 
 /* !UWAGA DZIWNE ZACHOWANIE! */
-void random_map(game_t game, int density) {
+int random_map(game_t game, int density) {
 	int max = game->map->width * game->map->height;
 	int n = max / 100 * density;
 	int i;
@@ -55,11 +56,23 @@ void random_map(game_t game, int density) {
 			actives[k++] = i;
 	
 	place(game, (int*)actives, n);
+	return 1;
 }
 
-void clean(game_t game, int height, int width) {
-	map_t new_map = alloc_map(game->map->height, game->map->width);
+int clean(game_t game, int height, int width) {
+	map_t new_map = alloc_map(height, width);
 	free(game->map);
 	game->actives_amount = 0;
 	game->map = new_map;
+	return 1;
+}
+
+int snap(game_t game, char *name) {
+	char path[128];
+	snprintf(path, 128, "resources/snaps/%s-%03d.png", name, game->age);
+	printf("Saving to: %s\n", path);
+
+	process_file(game->map);
+	write_png_file(path);
+	return 1;
 }

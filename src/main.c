@@ -1,64 +1,28 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
 #include <string.h>
 
-#include "utils/colors.h"
-
-#include "game/game.h"
-#include "game/rules.h"
-#include "game/map.h"
 #include "test/test.h"
-#include "game/game_cmds.h"
-#include "parser/cmd.h"
 
-rules_t load_test_rules();
+#include "parser/parser.h"
+#include "parser/cmd_proxy.h"
+#include "parser/commands.h"
 
-void flags_handling(int argc, char ** args) {
-	int c;
-
-	while(1) {
-		static struct option long_option[] = {
-			{"rules", required_argument,0, 'r'},
-			{"size ", required_argument, 0, 's'},
-			{"config", required_argument, 0, 'c'}, 
-			{0, 0, 0, 0}
-
-		};
-		int index = 0;
-		c = getopt_long(argc, args, "c:r:s:", long_option, &index);
-
-		if(c == -1) {
-			break;
-		}
-
-		switch(c) {
-			case 'c':
-				printf("option -c with value %s\n",optarg );
-				break;
-			case 'r':
-				printf("option -r with value %s\n",optarg );
-				break;
-			case 's':
-				printf("option -s with value %s\n",optarg );
-				break;	
-			case '?':
-				break;
-			default:
-				abort();
-    }	
-	}
-}
-
+#include "game/map.h"
+#include "game/rules.h"
+#include "game/game.h"
 
 int main(int argc, char **argv) {
 	
+	/* Run tests */
 	if(argc > 1 && strcmp(argv[1], "test") == 0) {
 		utests_t utests = alloc_utests();
 		return print_results(utests);
 	}
- 	flags_handling(argc, argv);
-
+ 	
+	/* Register all commands */
+	parser_t parser = alloc_parser(12);
+	register_all_cmds(parser);
+	print_help(parser);
 	
 	rules_t r = (rules_t) malloc(sizeof(struct Rules));
 	r->name = "test";
@@ -76,10 +40,7 @@ int main(int argc, char **argv) {
 	map_t map = alloc_map(20, 20);
 	game_t game = start(r, map);
 	
-	int actives[] = {1, 22, 40, 41, 42};
-	place(game, (int*)actives, 5);
-	move(game, 1, 0, NULL);
-	while(wait_cmd(game)) {}
+    golsh_loop(game, parser);
   
 	free(game);
 	return EXIT_SUCCESS;

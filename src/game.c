@@ -39,7 +39,7 @@ int invert_actives(map_t map, int* actives, int n) {
 	int i;
 	for(i = 0; i < n; i++)
 		invert(map, actives[i]);
-	return 0;
+	return 1;
 }
 
 int step(game_t game) {
@@ -72,7 +72,7 @@ int step(game_t game) {
 	game->actives_amount = new_actives_amount;
 	game->age++;
 	
-	return 0;
+	return 1;
 }
 
 int place(game_t game, int *actives, int n) {
@@ -87,5 +87,5 @@ int place(game_t game, int *actives, int n) {
 	
 	game->actives_amount = size;
 	
-	return 0;
+	return 1;
 }
