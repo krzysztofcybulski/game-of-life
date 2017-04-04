@@ -1,7 +1,7 @@
 # Game of Life
 
 :video_game:  
-Projekt w j�zyku ANSI C
+Projekt w jêzyku ANSI C
 
 Krzysztof Cybulski  
 Damian Rybicki
@@ -14,3 +14,4 @@ Wersja 2.0
 * show_rules i show_map
 * Naprawa "entera"
 * Dokumentacja
+* Dodać instrukcje do help
