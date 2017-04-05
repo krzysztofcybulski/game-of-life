@@ -4,9 +4,11 @@
 #include "game/map.h"
 #include "game/game_cmds.h"
 #include "game/structures.h"
+#include "parser/parser.h"
 
 int register_all_cmds(parser_t parser) {
 	register_cmd(parser, "show_rules", 		"Shows all available rules to choose from", show_rules_c);
+	register_cmd(parser, "show_maps", 		"Shows all available maps to choose from", show_maps_c);
 	register_cmd(parser, "set_rules",		"Sets <name> rules (see available by entering \"show_rules\")", set_rules_c);
 	register_cmd(parser, "place", 			"Changes cell state", place_c);
 	register_cmd(parser, "set_size", 		"Set map <height> and <width>", set_size_c);
@@ -23,7 +25,11 @@ int register_all_cmds(parser_t parser) {
 }
 
 int show_rules_c(char **command, game_t game) {
-	return 1;
+	return print_dir("resources/rules/");
+}
+
+int show_maps_c(char **command, game_t game) {
+	return print_dir("resources/structures/");
 }
 
 int set_rules_c(char **command, game_t game) {

@@ -6,6 +6,7 @@
 
 int register_all_cmds(parser_t parser);
 int show_rules_c(char **command, game_t game);
+int show_maps_c(char **command, game_t game);
 int set_rules_c	(char **command, game_t game);
 int place_c		(char **command, game_t game);
 int set_size_c	(char **command, game_t game);
