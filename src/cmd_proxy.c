@@ -92,7 +92,10 @@ int save_c(char **command, game_t game) {
 int load_c(char **command, game_t game) {
 	free(game->map);
 	game->map = load_structure(command[1]);
+	printf("Load map %s!\n", command[1]);
+
 	recalculate(game);
+
 	return 1;
 }
 

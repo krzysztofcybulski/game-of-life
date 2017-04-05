@@ -41,18 +41,20 @@ game_t flags_handling(int argc, char ** args) {
 			case 'm':
 				map = load_structure(optarg);
 				alloc = 1;
+				printf("Set map: %s\n", optarg );
 				break;
 			case 'r':
 				free(rules);
 				rules = load_rules(optarg);
+				printf("Set rules: %s\n", optarg );
 				break;
 			case 'h':
 				height = atoi(optarg);
-				printf("%d\n", height );
+				printf("Set height: %d\n", height );
 				break;
 			case 'w':
 				width = atoi(optarg);
-				printf("%d\n", width );
+				printf("Set width: %d\n", width );
 				break;		
 			case '?':
 				break;
