@@ -10,7 +10,6 @@
 #include "game/map.h"
 #include "game/rules.h"
 #include "game/game.h"
-#include "game/structures.h"
 
 game_t flags_handling(int argc, char ** args) {
 	int height 	= DEFAULT_HEIGHT;
@@ -39,7 +38,7 @@ game_t flags_handling(int argc, char ** args) {
 
 		switch(c) {
 			case 'm':
-				map = load_structure(optarg);
+				map = load_map(optarg);
 				alloc = 1;
 				printf("Set map: %s\n", optarg );
 				break;

@@ -3,7 +3,6 @@
 #include "game/rules.h"
 #include "game/map.h"
 #include "game/game_cmds.h"
-#include "game/structures.h"
 #include "parser/parser.h"
 
 int register_all_cmds(parser_t parser) {
@@ -93,12 +92,12 @@ int clean_c(char **command, game_t game) {
 
 int save_c(char **command, game_t game) {
 	printf("Saved current map to resources/structures/%s\n", command[1]);
-	return save_structure(command[1], game->map);
+	return save_map(command[1], game->map);
 }
 
 int load_c(char **command, game_t game) {
 	free(game->map);
-	game->map = load_structure(command[1]);
+	game->map = load_map(command[1]);
 	printf("Load map %s!\n", command[1]);
 
 	recalculate(game);

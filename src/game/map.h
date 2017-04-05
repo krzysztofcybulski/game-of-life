@@ -24,4 +24,7 @@ map_t alloc_map(char*, int, int);
 int invert(map_t, int);
 int increment(map_t, int, int);
 
+map_t load_map(char *name);
+int save_map(char *name, map_t struc);
+
 #endif

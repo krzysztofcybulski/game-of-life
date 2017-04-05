@@ -6,6 +6,6 @@ Projekt w jêzyku ANSI C
 Krzysztof Cybulski  
 Damian Rybicki
 
-Wersja 2.2
+Wersja 3.0
 
 Prawie 1500 linijek kodu :blush::blush::blush:

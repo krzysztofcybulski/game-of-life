@@ -1,3 +1,6 @@
 main
 /obj/
 /resources/snaps/
+docs/doc.aux
+docs/doc.log
+docs/doc.toc

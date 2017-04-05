@@ -34,4 +34,4 @@ remove: clean
 	
 .PHONY: clean
 doc:
-	pdflatex docs/doc.tex
+	pdflatex -no-file-line-error -output-directory docs -output-format pdf docs/doc.tex

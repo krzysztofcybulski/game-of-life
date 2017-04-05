@@ -53,7 +53,3 @@ rules_t alloc_rules(char *name, int live_n, int born_n, int neighbours_amount) {
 	rules->neighbours = malloc (neighbours_amount * sizeof(int *) + (neighbours_amount * (2 * sizeof(int))));
 	return rules;
 }
-
-all_rules_t alloc_all_rules() {
-	return NULL;
-}
