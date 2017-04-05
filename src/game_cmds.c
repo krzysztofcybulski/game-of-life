@@ -43,25 +43,25 @@ int move(game_t game, int n, int delay_time, char* filename) {
 
 int random_map(game_t game, int density) {
 	int max = game->map->width * game->map->height;
-	int n = max / 100 * density;
 	int i;
 	int k = 0;
 	srand(time(NULL));
 	
-	int actives[max];
+	int *actives = malloc(max * sizeof(int));
+	
+    clean(game, game->map->height, game->map->width);
 	
 	for(i = 0; i < max; i++)
 		if(rand() % 100 < density)
 			actives[k++] = i;
 	
-	place(game, (int*)actives, n);
+	place(game, actives, k);
 	return 1;
 }
 
 int clean(game_t game, int height, int width) {
 	map_t new_map = alloc_map("main", height, width);
 	free(game->map);
-	free(game->actives);
 	game->actives_amount = 0;
 	game->map = new_map;
 	return 1;
@@ -74,5 +74,13 @@ int snap(game_t game, char *name) {
 
 	process_file(game->map);
 	write_png_file(path);
+	return 1;
+}
+
+int gif(char *name, int delay) {
+	char cmd[256];
+	snprintf(cmd, 256, "convert -delay %d -loop 0 resources/snaps/%s-*.png resources/gifs/%s.gif", delay, name, name);
+	if(system(cmd) == -1)
+		printf("Couldn't generate gif animation :(\n");
 	return 1;
 }

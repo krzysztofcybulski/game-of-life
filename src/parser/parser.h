@@ -19,6 +19,6 @@ typedef struct Parser {
 parser_t alloc_parser(int);
 int register_cmd(parser_t parser, char *name, void *help, int (*cmd)(char **, game_t));
 void print_help(parser_t);
-int print_dir(char *name);
+int print_dir(char *name, char *type);
 
 #endif

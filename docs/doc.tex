@@ -1,0 +1,213 @@
+
+\documentclass{article}
+
+% Ustawianie jêzyka polskiego jako domyœlnego
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\selectlanguage{polish}
+
+% Pakiety
+\usepackage{listings}
+\usepackage{dirtree}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+
+
+\begin{document}
+
+\newgeometry{tmargin=2cm, bmargin=2cm, lmargin=3cm, rmargin=3cm}
+\pagestyle{fancy}
+\lfoot{Krzysztof Cybulski \& Damian Rybicki}
+\cfoot{}
+\rfoot{Strona nr \thepage}
+
+\begin{titlepage}
+\title{The Game of Life}
+\author{\textsc{Cybulski, Krzysztof}\\
+        \textsc{Rybicki, Damian}}
+\date{JIMP 2 2017}
+\maketitle
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+
+\section{Opis ogólny}
+\subsection{Nazwa programu}
+
+The Game of Life
+
+\subsection{Poruszany problem}
+
+Gra w ¿ycie zosta³a wymyœlona w roku 1970 przez brytyjskiego matematyka Johna Conwaya. Jest jednym z pierwszych i najbardziej znanych przyk³adów automatu komórkowego.
+
+Gra toczy siê na prostok¹tnej planszy n x m podzielonej na kwadratowe komórki. Ka¿da komórka ma okreœlon¹ iloœæ „s¹siadów” (zwykle jest to osiem lub cztery), czyli komórki przylegaj¹ce do niej bokami i rogami. Ka¿da komórka mo¿e znajdowaæ siê w jednym z dwóch stanów: mo¿e byæ albo „¿ywa” (w³¹czona), albo „martwa” (wy³¹czona). Stany komórek zmieniaj¹ siê w pewnych jednostkach czasu. Stan wszystkich komórek w pewnej jednostce czasu jest u¿ywany do obliczenia stanu wszystkich komórek w nastêpnej jednostce. Po obliczeniu wszystkie komórki zmieniaj¹ swój stan dok³adnie w tym samym momencie. Stan komórki zale¿y tylko od liczby jej ¿ywych s¹siadów.
+
+\section{Scenariusz dzia³ania programu}
+
+\section{Budowa programu}
+\subsection{Struktura katalogów}
+    \dirtree{%
+    .1 /.
+    .2 obj/.
+        .3 *.o.
+    .2 src/.
+        .3 *.c.
+        .3 game/.
+        .3 parser/.
+        .3 utils/.
+        .3 test/.
+    .2 resources/.
+        .3 snaps/.
+        .3 structures/.
+        .3 rules/.
+        .3 welcome/.
+    .2 docs/.
+        .3 doc.tex.
+        .3 doc.pdf.
+    .2 main.
+    .2 Makefile.
+    }
+\subsection{Algorytm}
+
+Algorytm zak³ada, ¿e plansza sk³ada siê z pól oznaczonych liczbami ca³kowitymi reprezentuj¹cymi iloœæ s¹siadów oraz informacjê o tym czy dana komórka jest ¿ywa czy nie. Korzystaj¹c z tej informacji oraz listy komórek, które powinny siê zmieniæ w nastêpnej generacji algorytm wykonuje nastêpuj¹ce kroki:
+
+\begin{enumerate}
+    \item Zmieniamy typ (¿ywa/martwa) ka¿dej komórki z listy aktywnych komórek (funkcja \textit{invert})
+    \item W zale¿noœci czy dana komórka zmar³a czy siê urodzi³a zwiêkszami lub zmiejszamy sumê s¹siadów wszystkich s¹siaduj¹cych komórek.
+        \begin{enumerate}
+        \item Jeœli nowa wartoœæ u s¹siada zawiera siê w wartoœciach oznaczaj¹cych œmieræ b¹dŸ urodzenie dodajemy t¹ komórkê do listy nowych aktywnych komórek.
+    \end{enumerate}
+    \item Zastêpujemy listê aktywnych komórek now¹ list¹
+\end{enumerate}
+
+Takie podejœcie sprawdza siê œwietnie w przypadku du¿ych plansz, poniewa¿ iloœæ operacji nie zale¿y od wieloœci planszy a jedynie od iloœci komórek, które zmieniaj¹ siê w nastêpnej generacji. W przypadku gdy ca³a plansza jest wype³niona zmieniaj¹cymi siê strukturami mo¿e okazaæ siê, ¿e program bêdzie dzia³a³ wolniej od sprawdzaj¹cego po kolei ca³¹ planszê. G³ównym tego powodem jest koniecznoœæ sprawdzenia czy komórka dodana do listy aktywnych komórek nie powtarza siê.
+
+\subsection{Przechowywanie danych}
+
+Struktura zawieraj¹ca mapê oraz udostêpniane funkcje
+\begin{lstlisting}[language=C]
+typedef struct Map {
+    char *name;
+    int width;
+    int height;
+    int *cells;
+} *map_t;
+
+map_t alloc_map(char*, int, int);
+int invert(map_t, int cell_index);
+int increment(map_t, int cell_index, int active_cell_value);
+\end{lstlisting}
+
+\subsubsection{Zasady}
+Struktura zawieraj¹ca zasady oraz udostêpniane funkcje
+
+\begin{lstlisting}[language=C]
+typedef struct Rules {
+	char *name;
+    int *live;
+	int live_n;
+	int *born;
+	int born_n;
+	int (*neighbours)[2];
+	int neighbours_amount;
+} *rules_t;
+\end{lstlisting}
+
+\subsubsection{Gra}
+Struktura zawieraj¹ca aktualn¹ grê oraz udostêpniane funkcje
+
+\begin{lstlisting}[language=C]
+typedef struct Game {
+	map_t map;
+	rules_t rules;
+    int age;
+	int *actives;
+	int actives_amount;
+} *game_t;
+
+game_t start(rules_t, map_t);
+int recalculate(game_t);
+int step(game_t);
+int place(game_t, int *new_active_cells_indexes, int n);
+\end{lstlisting}
+
+\subsection{Generowanie plików graficznych}
+Do generowania plików .png ze stanem planszy wykorzystujemy bibliotekê standardow¹ libpng. Plik ten powstaje poprzez nadanie "¿ywej komórce" czy pikselowi o odpowiednich wspó³rzêdnych bia³ej barwy. 
+\subsection{Parser poleceñ}
+Program pozwala na interakcjê z u¿ytkownikiem za pomoc¹ dostêpnej linii poleceñ. System pozwala na ³atwe dodawanie nowych poleceñ za pomoc¹ funkcji \textit{int register\_cmd(parser\_t parser, char *name, void *help, int (*cmd)(char **, game\_t));} , która przyjmuje nazwê polecenie, instrukcjê pomocy oraz wskaŸnik do wywo³ywanej funkcji w programie. Specjalnym poleceniem jest \textit{help}, wyœwietlaj¹ce listê zarejestrowanych poleceñ oraz ich instrukcje pomocy.
+
+\section{Dane wejœciowe}
+\subsection{Uruchamianie programu}
+Program mo¿na uruchomiæ z domyœlnymi ustawieniami na systemie Linux za pomoc¹ polecenia \textit{./main} . Program jest uruchamiany ze standardowymi opcjami.
+Plansza 20x20, zasady Conway-Moor.
+\subsection{Flagi}
+Program pozwala na ustawienie pierwszej mapy, zasad czy rozmiaru planszy.
+S³u¿¹ do tego odpowiednie flagi. Wprowadzona jest restrykcja na rozmiar mapy, MIN SIZE = 2, MAX SIZE = 999. 
+ Warto zaznaczyæ, ¿e nie nale¿y ³¹czyæ flagi s³u¿¹cej do ³adowania mapy oraz ustawienia rozmiaru planszy.
+
+Przyk³ady: 
+
+\textit{./main -m spaceship -r conway\_neumann} - za³aduje mapê ze "statkiem kosmicznym" u¿ywaj¹c zasad gry wed³ug Conwaya i s¹siedztwa Neumanna.
+
+\textit{./main --rules highlife\_moor --width 20 --height 30} - za³aduje mapê o rozmiarze 20x30 u¿ywaj¹c zasad gry Highlife oraz s¹siedztwa Moore'a.
+\subsection{Komendy}
+\begin{lstlisting}
+	show rules 		Pokazuje dostepne zasady gry
+	show maps 		Pokazuje mapy, ktore mozemy wybrac
+	set rules		Ustawia <nazwa> zasady 
+	place			Zmienia stan komorki
+	set size 		Ustawia plansze <wysokosc> and <szerokosc>
+	next    		Przechodzi do kolejnej generacji
+	n 			Skrot od komendy next
+	play 			Pokazuje <ilosc> generacji z <opoznienie> milisekundy 
+	random 			Tworzy losowa mape <procent> zageszczenia
+        snap		        Zapisuje biezaca generacje do <nazwa pliku>
+	clean 			Czysci mape
+	save			Zapisuje mape do <nazwa pliku>
+	load			Laduje mape <nazwa pliku>
+	exit 			Wylacza program
+\end{lstlisting}
+\subsection{W³asne zasady gry}
+U¿ytkownik mo¿e w bardzo ³atwy sposób zmodyfikowaæ lub stworzyæ w³asne zasady gry. Mowa tutaj o zmianie iloœci s¹siadów dla których komórka umiera siê lub rodzi oraz zdefiniowaniu nowego systemu s¹siedztwa (na przyk³ad zaimplementowanie s¹siedztwa Von Neumanna o wiêkszym promieniu). W tym celu wystarczy stworzyæ plik w katalogu \textit{resources/rules/} z nastêpuj¹c¹ zawartoœci¹:
+
+
+\begin{lstlisting}[language=bash]
+    name: <nazwa>
+    live_n: <ilosc wartosci live>
+    born_n: <ilosc wartosci born>
+    neighbours_n: <ilosc sasiadow>
+    live: <ilosc sasiadow dla ktorych komorka pozostaje 
+    zywa (np. 2 3)>
+    born: <ilosc sasiadow dla ktorych komorka sie rodzi 
+    (np. 3)>
+    neighbours: <wzgledne wspolrzedne kolejnych sasiadow 
+    (nizej przyklad)>
+    -1 -1
+    0 -1
+    1 -1
+    -1 0
+    1 0
+    -1 1
+    0 -1
+    1 -1
+\end{lstlisting}
+
+\section{Dane wyjœciowe}
+\subsection{Plansza}
+U¿ytkownik mo¿e zapisaæ bie¿¹c¹ generacjê planszy to pliku .txt. S³u¿y do tego komenda save <nazwa pliku>.
+\subsection{Graficzna interpretacja}
+Do projektu zosta³ do³¹czony generator plików .png. S¹ dwa rodzaje wykorzystania, mo¿emy u¿yæ komendy snap, aby zapisaæ bie¿¹c¹ generacjê. Drugim sposobem jest wywo³anie funkcji play <iloœæ generacji, które zobaczymy> <opóŸnienie konsoli> <nazwa pliku>, pliki bêd¹ siê zapisywaæ w postaci <nazwa pliku-bie¿¹ca generacja>
+
+\section{Testowanie}
+Projekt zawiera bardzo prost¹ implementacjê testów jednostkowych, pozwalaj¹c¹ na sprawdzenie czy dana funkcja zwraca przewidywan¹ wartoœæ.
+
+Program zosta³ przetestowany w ró¿nych, równie¿ skrajnych warunkach i nie zosta³y stwierdzone ¿adne b³êdy.
+
+\section{Dokumentacja}
+Powy¿sza dokumentacja zosta³a przygotowana za pomoc¹ oprogramowania \textit{Latex}. Pliki dokumentacji znajduj¹ siê w folderze doc/. Mo¿liwe jest skompilowanie pliku .tex do .pdf za pomoc¹ polecenia "make doc". 
+
+\end{document}

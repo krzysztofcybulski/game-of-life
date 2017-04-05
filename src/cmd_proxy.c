@@ -15,6 +15,7 @@ int register_all_cmds(parser_t parser) {
 	register_cmd(parser, "next", 			"Goes to next generation", next_c);
 	register_cmd(parser, "n", 				"Alias for \"next\" command", next_c);
 	register_cmd(parser, "play", 			"Shows <n> generations every <delay> milisecons and snaps them to <filename>", play_c);
+	register_cmd(parser, "gif", 			"Generates gif from <name> snaps with <delay> delay", gif_c);
 	register_cmd(parser, "random", 			"Creates random map with <density> density", random_c);
 	register_cmd(parser, "snap", 			"Snaps current genration to <filename>", snap_c);
 	register_cmd(parser, "clean", 			"Cleans map", clean_c);
@@ -25,11 +26,11 @@ int register_all_cmds(parser_t parser) {
 }
 
 int show_rules_c(char **command, game_t game) {
-	return print_dir("resources/rules/");
+	return print_dir("resources/rules/", "Rule");
 }
 
 int show_maps_c(char **command, game_t game) {
-	return print_dir("resources/structures/");
+	return print_dir("resources/structures/", "Map");
 }
 
 int set_rules_c(char **command, game_t game) {
@@ -41,8 +42,8 @@ int set_rules_c(char **command, game_t game) {
 }
 
 int place_c(char **command, game_t game) {
-    int actives[] = {(atoi(command[1]) * game->map->width) + atoi(command[2])};
-    printf("Placed cell in %d %d\n", atoi(command[1]), atoi(command[2]));
+    int actives[] = {(atoi(command[2]) * game->map->width) + atoi(command[1])};
+    printf("Placed cell in x=%d y=%d\n", atoi(command[1]), atoi(command[2]));
     return place(game, (int*)actives, 1);
 }
 
@@ -66,7 +67,14 @@ int next_c(char **command, game_t game) {
 }
 
 int play_c(char **command, game_t game) {
-    return move(game, atoi(command[1]),  atoi(command[2]), command[3]);
+	int delay = atoi(command[2]);
+	char* name = command[3];
+    move(game, atoi(command[1]), delay, name);
+	return gif(name, delay);
+}
+
+int gif_c (char **command, game_t game) {
+	return gif(command[2], atoi(command[1]));
 }
 
 int random_c(char **command, game_t game) {
@@ -76,7 +84,6 @@ int random_c(char **command, game_t game) {
 
 int snap_c(char **command, game_t game) {
     return snap(game, command[1]);
-
 }
 	
 int clean_c(char **command, game_t game) {

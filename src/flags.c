@@ -50,10 +50,14 @@ game_t flags_handling(int argc, char ** args) {
 				break;
 			case 'h':
 				height = atoi(optarg);
+				if(height < MIN_WIDTH || height > MAX_WIDTH)
+					height = DEFAULT_HEIGHT;
 				printf("Set height: %d\n", height );
 				break;
 			case 'w':
 				width = atoi(optarg);
+				if(width < MIN_WIDTH || width > MAX_WIDTH)
+					width = DEFAULT_HEIGHT;
 				printf("Set width: %d\n", width );
 				break;		
 			case '?':

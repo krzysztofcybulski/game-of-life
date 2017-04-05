@@ -33,24 +33,24 @@ int is_active(game_t game, int state) {
 	}
 }
 
-int invert_actives(map_t map, int* actives, int n) {
+int invert_actives(game_t game) {
 	int i;
-	for(i = 0; i < n; i++)
-		invert(map, actives[i]);
+	for(i = 0; i < game->actives_amount; i++) 
+		invert(game->map, game->actives[i]);
 	return 1;
 }
 
 int step(game_t game) {
+	invert_actives(game);
+	
 	int i, j;
 	int *new_actives = (int*) malloc(game->actives_amount * 8 * sizeof(int));
 	int new_actives_amount = 0;
-	invert_actives(game->map, game->actives, game->actives_amount);
 	
 	for(i = 0; i < game->actives_amount; i++)
-		for(j = 0; j < game->rules->neighbours_amount; j++) {
-			increment(game->map, game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]), game->actives[i]);
-		}
-		
+		for(j = 0; j < game->rules->neighbours_amount; j++)
+			increment(game->map, game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]), game->actives[i]);	
+	
 	for(i = 0; i < game->actives_amount; i++)
 		for(j = 0; j < game->rules->neighbours_amount; j++) {
 			int position = game->actives[i] + game->rules->neighbours[j][0] + (game->map->width * game->rules->neighbours[j][1]);
@@ -63,8 +63,9 @@ int step(game_t game) {
 					new_actives[new_actives_amount++] = position;
 			}
 		}
-	
-	free(game->actives);
+		
+	if(game->actives_amount > 0)
+		free(game->actives);
 	new_actives = realloc(new_actives, new_actives_amount * sizeof(int));
 	game->actives = new_actives;
 	game->actives_amount = new_actives_amount;

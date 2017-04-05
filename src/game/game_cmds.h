@@ -10,5 +10,6 @@ int move(game_t game, int n, int delay_time, char* filename);
 int random_map(game_t game, int density);
 int clean(game_t game, int height, int width);
 int snap(game_t game, char *name);
+int gif(char *name, int delay);
 
 #endif

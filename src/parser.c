@@ -25,7 +25,7 @@ void print_help(parser_t parser) {
 		printf("%-20s %s\n", parser->commands[i]->name, parser->commands[i]->help);
 }
 
-int print_dir(char *name) {
+int print_dir(char *name, char *type) {
 	struct dirent *file;
 	DIR * path;
 	int i = 1;
@@ -33,7 +33,7 @@ int print_dir(char *name) {
 	if((path = opendir((name))) != NULL) {
 		while((file = readdir(path)) != NULL) {
 			if (file->d_name[0] != '.'){
-				printf("Rule %d: %s\n", i, file->d_name);
+				printf("%s %d: %s\n", type, i, file->d_name);
 				i++;
 			}
 		}

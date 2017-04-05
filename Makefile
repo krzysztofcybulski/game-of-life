@@ -21,7 +21,7 @@ $(TARGET): $(OBJECTS)
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
-
+	
 .PHONY: clean
 clean:
 	@$(rm) $(OBJECTS)
@@ -31,3 +31,7 @@ clean:
 remove: clean
 	@$(rm) $(BINDIR)/$(TARGET)
 	@echo "Executable removed!"
+	
+.PHONY: clean
+doc:
+	pdflatex docs/doc.tex

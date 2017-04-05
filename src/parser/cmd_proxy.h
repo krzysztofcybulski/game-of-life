@@ -12,6 +12,7 @@ int place_c		(char **command, game_t game);
 int set_size_c	(char **command, game_t game);
 int next_c		(char **command, game_t game);
 int play_c		(char **command, game_t game);
+int gif_c		(char **command, game_t game);
 int random_c	(char **command, game_t game);
 int snap_c		(char **command, game_t game);
 int clean_c		(char **command, game_t game);
